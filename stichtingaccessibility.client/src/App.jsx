@@ -9,11 +9,7 @@ const  router = createBrowserRouter(
         {path: '/',element: <Home/>},
         {path: '/dashboard', element:<Dashboard/> }
     ])
-function App() {
-    
-    
-    return <RouterProvider router={router}/>
-}
+
 function MyButton() {
     return (
       <button>I'm a button</button>
@@ -46,12 +42,14 @@ function MyButton() {
         </form>
       );
     }
-
-  export default function App() {
+    
+function App() {
     return (
-        <div>
+        <RouterProvider>
         <h1>Welcome to my app</h1>
         <MyForm />
-      </div>
+      </RouterProvider>
     );
   }
+  
+  export default  App;
