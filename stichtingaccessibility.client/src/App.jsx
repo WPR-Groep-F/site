@@ -45,7 +45,7 @@ function MyButton() {
     
 function App() {
     return (
-        <RouterProvider>
+        <RouterProvider router={router}>
         <h1>Welcome to my app</h1>
         <MyForm />
       </RouterProvider>
