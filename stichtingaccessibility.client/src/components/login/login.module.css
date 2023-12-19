@@ -1,0 +1,166 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 100vh;
+    min-height: 100vh;
+    background-color: #111329;
+    overflow: hidden;
+  }
+  
+  .bg-cirkel { 
+    width: 500px;
+    height: 500px;
+    border-radius: 500px;
+    background: #3877FF;
+    position: absolute;
+    left: -150px;
+    bottom: -150px;
+    z-index: 0;
+    display: block;
+    transition: transform .5s;
+  }
+  
+  .bg-vector {
+    position: absolute;
+    right: 0;
+    top: -1px;
+    z-index: 0;
+    transition: transform .5s;
+  }
+  
+  @media only screen and (max-width: 1024px) {
+   .bg-vector{
+    /* display: none; */
+    transform: translateX(250px);
+   } 
+   .bg-cirkel {
+    /* display: none; */
+    transform: translateX(-250px);
+   }
+  }
+  
+  .wrapper {
+    width: 420px;
+    padding: 30px 40px;
+    color: #fff;
+    background-color: transparent;
+    border-radius: 20px;
+  }
+  
+  .wrapper .logo {
+    display: flex;
+  }
+  
+  .wrapper img {
+    width: 70px;
+    align-items: center;
+  }
+  
+  .wrapper h1 {
+    font-size: 34px;
+    top: 50%;
+    transform: translateY(20%);
+  }
+  
+  .wrapper .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+  }
+  
+  .input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 20px 20px 50px;
+  }
+  
+  .input-box input::placeholder {
+    color: #fff;
+  }
+  
+  .input-box i{
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+  
+  }
+  
+  .wrapper .forgot-password {
+    position: relative;
+    font-size: 14.5px;
+    margin-top: 10px; 
+  }
+  
+  .wrapper .forgot-password a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .wrapper .forgot-password a:hover{
+    text-decoration: underline;
+  }
+
+  .btn--login {
+    background-color: #1CA883;
+    color: #fff;
+    width: 100%;
+    height: 45px;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .btn--google  {
+    background-color: #fff;
+    color: black;
+    width: 100%;
+    height: 45px;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  .Google-btn {
+    position: relative;
+  
+  }
+  .Google-btn i {
+    position: absolute;
+    color: #111329;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 35px;
+  }
+  
+  .wrapper p {
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  
+  
+  
+  

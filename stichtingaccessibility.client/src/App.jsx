@@ -3,10 +3,12 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import './App.css';
 import Home from "./components/Home.jsx";
 import Dashboard from "./components/EvdDashboard.jsx"
+import Login from './components/login/login.jsx';
+
 
 const  router = createBrowserRouter(
     [
-        {path: '/',element: <Home/>},
+        {path: '/',element: <Login/>},
         {path: '/dashboard', element:<Dashboard/> }
     ])
 function App() {
