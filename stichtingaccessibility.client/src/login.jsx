@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import {useNavigate} from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
+    
 
     // Add your authentication logic here
     console.log('Username:', username);
@@ -15,6 +17,10 @@ const Login = () => {
     // Reset the form fields after submission
     setUsername('');
     setPassword('');
+    
+    navigate('/deskundig');
+    
+    
   };
 
   return (

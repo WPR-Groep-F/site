@@ -1,13 +1,25 @@
 import { useEffect, useState } from 'react';
-import {createBrowserRouter, RouterProvider} from 'react-router-dom'
+import {createBrowserRouter, RouterProvider, } from 'react-router-dom'
 import './App.css';
-import Home from "./components/Home.jsx";
-import Dashboard from "./components/EvdDashboard.jsx"
+import DeskundigDashboard from "./pages/Deskundig/DeskundigDashboard.jsx";
+import DeskundigOnderzoeken from "./pages/Deskundig/DeskundigOnderzoeken.jsx";
+import DeskundigProfiel from "./pages/Deskundig/DeskundigProfiel.jsx";
+import DeskundigRootLayout from "./components/Layout/Deskundig/DeskundigRootLayout.jsx";
+import Login from "./login.jsx";
 
-const  router = createBrowserRouter(
-    [
-        {path: '/',element: <Home/>},
-        {path: '/dashboard', element:<Dashboard/> }
+const  router = createBrowserRouter([
+    {path: '/', element: <Login/>},
+    
+    {
+        path: '/deskundig',
+        element: <DeskundigRootLayout />,
+        children: [
+            {index: true, element:<DeskundigDashboard/> },
+            {path: "onderzoeken", element: <DeskundigOnderzoeken/>},
+            {path: "profiel", element: <DeskundigProfiel/>},
+        ]
+    },
+        
     ])
 
 function MyButton() {
@@ -46,8 +58,6 @@ function MyButton() {
 function App() {
     return (
         <RouterProvider router={router}>
-        <h1>Welcome to my app</h1>
-        <MyForm />
       </RouterProvider>
     );
   }
