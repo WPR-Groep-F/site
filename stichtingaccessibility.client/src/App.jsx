@@ -1,15 +1,21 @@
 import { useEffect, useState } from 'react';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import './App.css';
-import Home from "./components/Home.jsx";
-import Dashboard from "./components/EvdDashboard.jsx"
-import Login from './components/login/login.jsx';
+import Login from './pages/login/login.jsx';
+import Dashboard from './pages/EVD/EvdDashboard.jsx'
+import RootLayout from './components/layout/RootLayout.jsx';
 
-
-const  router = createBrowserRouter(
-    [
-        {path: '/',element: <Login/>},
-        {path: '/dashboard', element:<Dashboard/> }
+const router = createBrowserRouter([
+    {path: '/', element: <Login/>},
+    
+    {
+        path: '/deskundig',
+        element: <RootLayout />,
+        children: [
+            {index: true, element:<Dashboard/> },
+        ]
+    },
+        
     ])
 function App() {
     

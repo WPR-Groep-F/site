@@ -1,13 +1,12 @@
 
 import classes from "./login.module.css"
-import logo from "../../assets/Logo-accessibility.png";
-
-
+import logo from "../../assets/Logo/logo_darkblue.png";
 
 function Login() {
   return (
 
     <>
+    <div className={classes["page-wrapper"]}>
       <div className={classes["wrapper"]}>
         <div className={classes["bg-cirkel"]}></div>
         <div className={classes["bg-vector"]}>
@@ -39,6 +38,7 @@ function Login() {
             <i class='bx bxl-google'></i>
           </div>
         </form>
+      </div>
       </div>
     </>
   );

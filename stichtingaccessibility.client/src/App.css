@@ -1,6 +1,21 @@
-﻿#root {
-    max-width: 1280px;
-    margin: 0 auto;
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  body {
+    max-height: 100vh;
+    min-height: 100vh;
+    background-color: #111329;
+    overflow: hidden;
+  }
+  
+#root {
+    width: 100%;
+    /* max-width: 1280px; */
+    /* margin: 0 auto; */
     padding: 2rem;
     text-align: center;
 }
