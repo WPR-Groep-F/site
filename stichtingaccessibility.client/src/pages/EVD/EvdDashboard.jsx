@@ -1,15 +1,10 @@
-
-
-function EvdDashboard (){
-    return (
-        <div className="EvdDashboard">
-            <div>
-                <h1>Dashboard</h1>
-            </div>
-        </div>
-        
-        
-    )
+import classes from './EvdDashboard.module.css'
+function EvdDashboard() {
+  return (
+    <>
+      <h1>Dashboard</h1>
+    </>
+  );
 }
 
 export default EvdDashboard;
