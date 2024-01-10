@@ -1,0 +1,36 @@
+﻿* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  max-height: 100vh;
+  min-height: 100vh;
+  background-color: #111329;
+  overflow: hidden;
+}
+
+#root {
+  width: 100%;
+  /* max-width: 1280px; */
+  /* margin: 0 auto; */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+tr:nth-child(even) {
+  background: #f2f2f2;
+}
+
+tr:nth-child(odd) {
+  background: #fff;
+}
+
+th,
+td {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
