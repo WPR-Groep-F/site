@@ -5,7 +5,8 @@ import axios from 'axios';
 const queryClient = new QueryClient();
 
 const fetchCustomers = async () => {
-    const result = await axios.get('http://localhost:5088/api/customer');
+    const result = await axios.get(
+        'http://localhost:5088/api/customer');
     return <result className="data"></result>
 };
 
