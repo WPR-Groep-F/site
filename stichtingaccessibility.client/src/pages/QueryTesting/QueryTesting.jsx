@@ -1,39 +1,25 @@
 import React from "react";
-import { useQuery, QueryClient, QueryClientProvider } from "react-query";
 import axios from 'axios';
 
-const queryClient = new QueryClient();
+const baseURL = "http://localhost:5088/api/customer/1";
 
-const fetchCustomers = async () => {
-    const result = await axios.get(
-        'http://localhost:5088/api/customer');
-    return <result className="data"></result>
-};
-
-const Customer  = () => {
-    const { isLoading, error, data } = useQuery('customers', fetchCustomers); 
-    if (isLoading) return "Loading...";
-    if (error) return 'There was an error! ${error}';
-
-    return (
-        <div>
-        <h1>Query GET</h1>    
-            <div>
-                { data.map((customer) => {
-                    <p key={customer} > {customer.FirstName} </p>
-                    })
-                }
-                </div>
-        </div>
-    )
-};
-
-const QueryTesting = () => {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <Customer />
-      </QueryClientProvider>
-    );
-  };
+export default function QueryTesting() {
+    const [customer, setCustomer] = React.useState(null);
   
-  export default QueryTesting;
+    React.useEffect(() => {
+      axios.get(baseURL).then((response) => {
+        setCustomer(response.data);
+      });
+    }, []);
+  
+    if (!customer) return null;
+  
+    return (
+      <div>
+        <h1>{customer.customerId}</h1>
+        <h1>{customer.firstName}</h1>
+        <h1>{customer.lastName}</h1>
+        <h1>{customer.email}</h1>
+      </div>
+    );
+  }
