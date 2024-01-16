@@ -9,7 +9,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy  =>
                       {
-                          policy.WithOrigins("https://localhost:5173");
+                          policy.WithOrigins("https://localhost:8081");
                       });
 });
 
@@ -41,7 +41,7 @@ app.UseStaticFiles();
 app.UseCors(MyAllowSpecificOrigins);
 
 // Configure the HTTP request pipeline.
-if (true)
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
