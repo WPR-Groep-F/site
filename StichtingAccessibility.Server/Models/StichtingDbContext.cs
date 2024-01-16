@@ -22,8 +22,6 @@ public partial class StichtingDbContext : DbContext
         modelBuilder.Entity<Customer>(entity =>
         {
             entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64D8BBE16905");
-
-            entity.Property(e => e.CustomerId).ValueGeneratedNever();
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.FirstName).HasMaxLength(50);
             entity.Property(e => e.LastName).HasMaxLength(50);
