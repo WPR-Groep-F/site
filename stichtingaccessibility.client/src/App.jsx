@@ -7,11 +7,11 @@ import EvdProfiel from "./pages/EVD/EvdProfiel.jsx";
 import EvdOnderzoeken from "./pages/EVD/EvdOnderzoeken.jsx";
 import QueryTesting from "./pages/QueryTesting/QueryTesting.jsx";
 
+
 const router = createBrowserRouter([
   { path: "/", element: <Login /> },
 
   { path: "/querytesting", element: <QueryTesting /> },
-
   {
     path: "/deskundig",
     element: <RootLayout />,
