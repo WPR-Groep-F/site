@@ -7,7 +7,7 @@ export default function QueryTesting() {
     const [customer, setCustomer] = React.useState(null);
   
     React.useEffect(() => {
-      axios.get(baseURL + "/api/customer/1").then((response) => {
+      axios.get('https://localhost:7024/api/customer/1').then((response) => {
         setCustomer(response.data);
       });
     }, []);
