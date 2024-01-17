@@ -1,11 +1,13 @@
 import React from "react";
 import axios from 'axios';
 
+
+const baseURL = window.location.protocol + "//" + window.location.hostname;
 export default function QueryTesting() {
     const [customer, setCustomer] = React.useState(null);
   
     React.useEffect(() => {
-      axios.get("https://localhost:7024/api/customer/1").then((response) => {
+      axios.get(baseURL + "/api/customer/1").then((response) => {
         setCustomer(response.data);
       });
     }, []);
