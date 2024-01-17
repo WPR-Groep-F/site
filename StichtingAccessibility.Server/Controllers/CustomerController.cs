@@ -46,7 +46,7 @@ namespace DotnetWebApiWithEF.Controllers
             _context.Customers.Add(customer);
             _context.SaveChanges();
 
-            return CreatedAtAction(nameof(GetCustomer), new { id = customer.CustomerId }, customer);
+            return CreatedAtAction(nameof(GetCustomer), new { id = customer.Id }, customer);
         }
     }
 }
