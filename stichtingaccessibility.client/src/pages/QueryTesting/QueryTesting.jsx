@@ -1,7 +1,7 @@
 import React from "react";
 import axios from 'axios';
 
-const baseURL = `${window.location.protocol}//${window.location.hostname}/api`;
+const baseURL = `${window.location.protocol}//${window.location.host}/api`;
 
 
 export default function QueryTesting() {
