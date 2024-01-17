@@ -2,7 +2,7 @@ import React from "react";
 import axios from 'axios';
 
 
-const baseURL = window.location.protocol + "//" + window.location.hostname;
+const baseURL = window.location.protocol + "//" + window.location.host;
 export default function QueryTesting() {
     const [customer, setCustomer] = React.useState(null);
   
