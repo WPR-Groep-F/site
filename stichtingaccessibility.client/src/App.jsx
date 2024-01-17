@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {QueryClientProvider} from "react-query";
 import "./App.css";
 import Login from "./pages/login/login.jsx";
 import Dashboard from "./pages/EVD/EvdDashboard.jsx";
@@ -7,6 +8,7 @@ import EvdProfiel from "./pages/EVD/EvdProfiel.jsx";
 import EvdOnderzoeken from "./pages/EVD/EvdOnderzoeken.jsx";
 import QueryTesting from "./pages/QueryTesting/QueryTesting.jsx";
 
+const queryClient = new QueryClientProvider();
 
 const router = createBrowserRouter([
   { path: "/", element: <Login /> },
@@ -25,7 +27,10 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>)
 }
 
 export default App;
