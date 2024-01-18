@@ -1,4 +1,4 @@
-import classes from "./AuthForm.module.css"
+import classes from "./RegisterForm.module.css"
 import {Form,useActionData} from "react-router-dom";
 import logo from "../assets/Logo/logo_darkblue.png";
 
@@ -25,26 +25,21 @@ function RegisterForm(){
               <i class="bx bxs-user"></i>
             </div>
             <div className={classes["input-box"]}>
+              <input type="E-mail" placeholder="E-mail" />
+              <i class='bx bxs-envelope' ></i>
+            </div>
+            <div className={classes["input-box"]}>
               <input type="Password" placeholder="Password" />
               <i class="bx bxs-lock-alt"></i>
             </div>
-            <button type="Submit" className={classes["btn--login"]}>
-              Login
+            <div className={classes["input-box"]}>
+              <input type="Password" placeholder="Confirm Password" />
+              <i class="bx bxs-lock-alt"></i>
+            </div>
+
+            <button type="Submit" className={classes["btn--register"]}>
+              Registreer
             </button>
-            <div className={classes["forgot-password"]}>
-              <a href="#">Forgot password? </a>
-              <br/>
-              <a href=""> Register Here</a>
-            </div>
-            <div className={classes["OR"]}>
-              <p>OR</p>
-            </div>
-            <div className={classes["Google-btn"]}>
-              <button type="Submit" className={classes["btn--google"]}>
-                Login with google
-              </button>
-              <i class="bx bxl-google"></i>
-            </div>
 
             </Form>
         </>
