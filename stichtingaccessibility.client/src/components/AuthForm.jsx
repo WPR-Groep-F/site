@@ -1,6 +1,6 @@
 import classes from "./AuthForm.module.css"
 import {Form,useActionData} from "react-router-dom";
-import logo from "../assets/Logo/logo_darkblue_transparent.png";
+import logo from "../assets/Logo/logo_darkblue.png";
 
 function AuthForm(){
     const data = useActionData();
