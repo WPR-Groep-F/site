@@ -37,27 +37,21 @@ export async function action({ request }) {
   
   const data = await request.formData();
   const authData = {
-    userName: "test123",
-    password: "test@Password123",
+    userName: data.get('username'),
+    password: data.get('password'),
   };
-  console.log(authData)
-
-  console.log("Before the post")
   const response = await axios.post('https://localhost:7024/api/account/login', authData);
-  console.log("after")
   
-  if (true){
-    console.log(response.data)
-    console.log("In the if")
-  }
-  
-  
-
   if (!response.status == "200") {
     throw json({ message: 'Could not authenticate user.' }, { status: 500 });
   }
   
 
   // soon: manage that token
+  
+  const token = response.data;
+  
+  localStorage.setItem('token',JSON.stringify(token))
+  
   return redirect('/deskundig');
 }

@@ -21,11 +21,11 @@ function AuthForm(){
             </div>
 
             <div className={classes["input-box"]}>
-              <input type="username" placeholder="Username" />
+              <input type="username" name="username" placeholder="Username" />
               <i class="bx bxs-user"></i>
             </div>
             <div className={classes["input-box"]}>
-              <input type="Password" placeholder="Password" />
+              <input type="Password" name="password" placeholder="Password" />
               <i class="bx bxs-lock-alt"></i>
             </div>
             <button type="Submit" className={classes["btn--login"]}>
