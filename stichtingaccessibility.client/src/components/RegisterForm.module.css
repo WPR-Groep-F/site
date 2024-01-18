@@ -111,3 +111,14 @@
     margin-bottom: 20px;
   }
   
+  .wrapper .forgot-password {
+    position: relative;
+    font-size: 14.5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .wrapper .forgot-password a {
+    color: #fff;
+    text-decoration: none;
+  }
