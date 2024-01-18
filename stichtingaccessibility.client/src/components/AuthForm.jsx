@@ -1,5 +1,5 @@
 import classes from "./AuthForm.module.css"
-import {Form,useActionData} from "react-router-dom";
+import {Form,useActionData, Link} from "react-router-dom";
 import logo from "../assets/Logo/logo_darkblue.png";
 
 function AuthForm(){
@@ -32,9 +32,9 @@ function AuthForm(){
               Login
             </button>
             <div className={classes["forgot-password"]}>
-              <a href="#">Forgot password? </a>
+            <Link to={"/forgot"}>Forgot password?</Link>
               <br/>
-              <a href=""> Register Here</a>
+              <Link to={"/register"}>Register here</Link>
             </div>
             <div className={classes["OR"]}>
               <p>OR</p>
