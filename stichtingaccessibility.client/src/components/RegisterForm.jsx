@@ -2,7 +2,7 @@ import classes from "./AuthForm.module.css"
 import {Form,useActionData} from "react-router-dom";
 import logo from "../assets/Logo/logo_darkblue.png";
 
-function AuthForm(){
+function RegisterForm(){
     const data = useActionData();
     return(
         <>
@@ -51,4 +51,4 @@ function AuthForm(){
     )
 }
 
-export default AuthForm;
+export default RegisterForm;

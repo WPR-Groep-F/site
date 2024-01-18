@@ -8,12 +8,14 @@ import EvdProfiel from "./pages/EVD/EvdProfiel.jsx";
 import EvdOnderzoeken from "./pages/EVD/EvdOnderzoeken.jsx";
 import QueryTesting from "./pages/QueryTesting/QueryTesting.jsx";
 
+
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   { path: "/", element: <Login /> , action: LoginAction },
 
   { path: "/querytesting", element: <QueryTesting /> },
+  { path: "/register", element: <QueryTesting.jsx /> },
   {
     path: "/deskundig",
     element: <RootLayout />,
