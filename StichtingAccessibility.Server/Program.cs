@@ -12,7 +12,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy  =>
                       {
-                          policy.WithOrigins("https://localhost:5173", "https://groepf.azurewebsites.net");
+                          policy.WithOrigins("https://localhost:5173", "https://groepf.azurewebsites.net")
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
                       });
 });
 

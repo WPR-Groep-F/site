@@ -1,5 +1,8 @@
 import classes from "./login.module.css";
-import logo from "../../assets/Logo/logo_darkblue.png";
+
+import AuthForm from "../../components/AuthForm";
+import {redirect,json} from "react-router-dom";
+import axios from "axios";
 
 function Login() {
   return (
@@ -21,36 +24,7 @@ function Login() {
               />
             </svg>
           </div>
-          <form action="">
-            <div className={classes["logo"]}>
-              <img src={logo} alt="logo" />
-              <h1>Accessibility</h1>
-            </div>
-
-            <div className={classes["input-box"]}>
-              <input type="email" placeholder="Username" />
-              <i class="bx bxs-user"></i>
-            </div>
-            <div className={classes["input-box"]}>
-              <input type="Password" placeholder="Password" />
-              <i class="bx bxs-lock-alt"></i>
-            </div>
-            <button type="Submit" className={classes["btn--login"]}>
-              Login
-            </button>
-            <div className={classes["forgot-password"]}>
-              <a href="#">Forgot password?</a>
-            </div>
-            <div className={classes["OR"]}>
-              <p>OR</p>
-            </div>
-            <div className={classes["Google-btn"]}>
-              <button type="Submit" className={classes["btn--google"]}>
-                Login with google
-              </button>
-              <i class="bx bxl-google"></i>
-            </div>
-          </form>
+          <AuthForm />
         </div>
       </div>
     </>
@@ -58,3 +32,32 @@ function Login() {
 }
 
 export default Login;
+
+export async function action({ request }) {
+  
+  const data = await request.formData();
+  const authData = {
+    userName: "test123",
+    password: "test@Password123",
+  };
+  console.log(authData)
+
+  console.log("Before the post")
+  const response = await axios.post('https://localhost:7024/api/account/login', authData);
+  console.log("after")
+  
+  if (true){
+    console.log(response.data)
+    console.log("In the if")
+  }
+  
+  
+
+  if (!response.status == "200") {
+    throw json({ message: 'Could not authenticate user.' }, { status: 500 });
+  }
+  
+
+  // soon: manage that token
+  return redirect('/deskundig');
+}

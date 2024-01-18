@@ -1,17 +1,17 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import {QueryClientProvider} from "react-query";
+import {QueryClientProvider,QueryClient} from "react-query";
 import "./App.css";
-import Login from "./pages/login/login.jsx";
+import Login , {action as LoginAction} from "./pages/login/login.jsx";
 import Dashboard from "./pages/EVD/EvdDashboard.jsx";
 import RootLayout from "./components/layout/RootLayout.jsx";
 import EvdProfiel from "./pages/EVD/EvdProfiel.jsx";
 import EvdOnderzoeken from "./pages/EVD/EvdOnderzoeken.jsx";
 import QueryTesting from "./pages/QueryTesting/QueryTesting.jsx";
 
-const queryClient = new QueryClientProvider();
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
-  { path: "/", element: <Login /> },
+  { path: "/", element: <Login /> , action: LoginAction },
 
   { path: "/querytesting", element: <QueryTesting /> },
   {
