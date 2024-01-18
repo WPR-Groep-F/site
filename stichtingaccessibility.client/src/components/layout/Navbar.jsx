@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/Logo/logo_darkblue.png";
 import classes from "./Navbar.module.css";
+import './Navbar.module.css'
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const toggleMenu = () => { console.log('Toggle menu clicked'); setMenuOpen(!menuOpen);}
 
   return (
     <header>
@@ -14,10 +16,10 @@ function Navbar() {
           <h1>Accesibility</h1>
         </div>
 
-        <div className={classes["menu"]} onClick={() => setMenuOpen(!menuOpen)}>
+        <div className={classes["menu"]} onClick={toggleMenu}>
           <i class="bx bx-menu"></i>
         </div>
-        <ul className={classes.navList}>
+        <ul className={`${classes.navList} ${menuOpen ? 'menu-open' : 'menu-closed'}`}>
           <li>
             <NavLink
               to=""
