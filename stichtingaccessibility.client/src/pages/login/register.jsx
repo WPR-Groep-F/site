@@ -1,5 +1,7 @@
 import RegisterForm from "../../components/RegisterForm";
 import classes from "./register.module.css";
+import axios from "axios";
+import {redirect} from "react-router-dom";
 
 function register() {
     return (
@@ -29,3 +31,24 @@ function register() {
   }
   
   export default register;
+
+export async function action({ request }) {
+
+    const data = await request.formData();
+    const authData = {
+        userName: data.get('username'),
+        password: data.get('password'),
+        email: data.get('email'),
+    };
+    const response = await axios.post('https://localhost:7024/api/account/registreer', authData);
+
+    if (!response.status == "200") {
+        throw json({ message: 'Could not create user.' }, { status: 500 });
+    }
+
+
+    // soon: manage that token
+    
+
+    return redirect('/');
+}
