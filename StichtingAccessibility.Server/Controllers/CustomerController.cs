@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StichtingAccessibility.Server.Models;
 
 namespace DotnetWebApiWithEF.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase
@@ -46,7 +48,7 @@ namespace DotnetWebApiWithEF.Controllers
             _context.Customers.Add(customer);
             _context.SaveChanges();
 
-            return CreatedAtAction(nameof(GetCustomer), new { id = customer.CustomerId }, customer);
+            return CreatedAtAction(nameof(GetCustomer), new { id = customer.Id }, customer);
         }
     }
 }
