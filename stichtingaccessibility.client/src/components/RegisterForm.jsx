@@ -22,19 +22,19 @@ function RegisterForm(){
             </div>
 
             <div className={classes["input-box"]}>
-              <input type="username" placeholder="Username" />
+              <input type="username" placeholder="Username" name="username"/>
               <i class="bx bxs-user"></i>
             </div>
             <div className={classes["input-box"]}>
-              <input type="E-mail" placeholder="E-mail" />
+              <input type="email" placeholder="E-mail" name="email"/>
               <i class='bx bxs-envelope' ></i>
             </div>
             <div className={classes["input-box"]}>
-              <input type="Password" placeholder="Password" />
+              <input type="password" placeholder="Password" name="password"/>
               <i class="bx bxs-lock-alt"></i>
             </div>
             <div className={classes["input-box"]}>
-              <input type="Password" placeholder="Confirm Password" />
+              <input type="password" placeholder="Confirm Password" />
               <i class="bx bxs-lock-alt"></i>
             </div>
             <div className={classes["forgot-password"]}>
