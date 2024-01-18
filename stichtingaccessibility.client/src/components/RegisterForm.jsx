@@ -1,6 +1,7 @@
 import classes from "./RegisterForm.module.css"
-import {Form,useActionData} from "react-router-dom";
+import {Form,useActionData, Link} from "react-router-dom";
 import logo from "../assets/Logo/logo_darkblue.png";
+
 
 function RegisterForm(){
     const data = useActionData();
@@ -36,7 +37,9 @@ function RegisterForm(){
               <input type="password" placeholder="Confirm Password" />
               <i class="bx bxs-lock-alt"></i>
             </div>
-
+            <div className={classes["forgot-password"]}>
+                <Link to={"/"}>Login</Link>
+              </div>
             <button type="Submit" className={classes["btn--register"]}>
               Registreer
             </button>

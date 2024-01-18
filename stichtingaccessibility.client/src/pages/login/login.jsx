@@ -3,6 +3,8 @@ import classes from "./login.module.css";
 import AuthForm from "../../components/AuthForm";
 import {redirect,json} from "react-router-dom";
 import axios from "axios";
+import {apiPath} from "../../util/api.jsx";
+import {isDev} from "../../util/development.jsx";
 
 function Login() {
   return (
@@ -27,6 +29,8 @@ function Login() {
           <AuthForm />
         </div>
       </div>
+      {console.log(apiPath)}
+      {console.log(isDev())}
     </>
   );
 }
@@ -40,7 +44,7 @@ export async function action({ request }) {
     userName: data.get('username'),
     password: data.get('password'),
   };
-  const response = await axios.post('https://localhost:7024/api/account/login', authData);
+  const response = await axios.post(apiPath + "/api/account/login", authData);
   
   if (!response.status == "200") {
     throw json({ message: 'Could not authenticate user.' }, { status: 500 });
