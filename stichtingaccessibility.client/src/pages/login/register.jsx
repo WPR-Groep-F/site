@@ -2,6 +2,7 @@ import RegisterForm from "../../components/RegisterForm";
 import classes from "./register.module.css";
 import axios from "axios";
 import {redirect} from "react-router-dom";
+import {apiPath} from "../../util/api.jsx";
 
 function register() {
     return (
@@ -35,12 +36,12 @@ function register() {
 export async function action({ request }) {
 
     const data = await request.formData();
-    const authData = {
+    const registerData = {
         userName: data.get('username'),
         password: data.get('password'),
         email: data.get('email'),
     };
-    const response = await axios.post('https://localhost:7024/api/account/registreer', authData);
+    const response = await axios.post(apiPath + "/api/account/registreer", registerData);
 
     if (!response.status == "200") {
         throw json({ message: 'Could not create user.' }, { status: 500 });

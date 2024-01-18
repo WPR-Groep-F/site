@@ -6,8 +6,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>false</InvariantGlobalization>
     <SpaRoot>..\stichtingaccessibility.client</SpaRoot>
-    <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
+    
     <SpaProxyServerUrl>https://localhost:5173</SpaProxyServerUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(ASPNETCORE_ENVIRONMENT)' == 'Development'">
+    <SpaProxyLaunchCommand><![CDATA[npm run dev]]></SpaProxyLaunchCommand>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(ASPNETCORE_ENVIRONMENT)' == 'Production'">
+    <SpaProxyLaunchCommand><![CDATA[npm run buildAndServe]]></SpaProxyLaunchCommand>
   </PropertyGroup>
 
   <ItemGroup>

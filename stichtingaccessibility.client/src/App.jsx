@@ -8,6 +8,7 @@ import EvdProfiel from "./pages/EVD/EvdProfiel.jsx";
 import EvdOnderzoeken from "./pages/EVD/EvdOnderzoeken.jsx";
 import QueryTesting from "./pages/QueryTesting/QueryTesting.jsx";
 import Register, {action as RegisterAction} from "./pages/login/register.jsx";
+import {getAuthToken} from "./util/auth.js";
 
 
 const queryClient = new QueryClient();
