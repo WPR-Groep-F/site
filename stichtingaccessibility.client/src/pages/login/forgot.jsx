@@ -2,8 +2,9 @@ import RegisterForm from "../../components/RegisterForm";
 import classes from "./login.module.css";
 import axios from "axios";
 import {redirect} from "react-router-dom";
+import ForgotForm from "../../components/ForgotForm";
 
-function register() {
+function forgot() {
     return (
       <>
         <div className={classes["page-wrapper"]}>
@@ -23,32 +24,10 @@ function register() {
                 />
               </svg>
             </div>
-            <RegisterForm />
+            <ForgotForm />
           </div>
         </div>
       </>
     );
   }
-  
-  export default register;
-
-export async function action({ request }) {
-
-    const data = await request.formData();
-    const authData = {
-        userName: data.get('username'),
-        password: data.get('password'),
-        email: data.get('email'),
-    };
-    const response = await axios.post('https://localhost:7024/api/account/registreer', authData);
-
-    if (!response.status == "200") {
-        throw json({ message: 'Could not create user.' }, { status: 500 });
-    }
-
-
-    // soon: manage that token
-    
-
-    return redirect('/');
-}
+  export default forgot;

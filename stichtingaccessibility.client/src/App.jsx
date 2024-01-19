@@ -8,6 +8,7 @@ import EvdProfiel from "./pages/EVD/EvdProfiel.jsx";
 import EvdOnderzoeken from "./pages/EVD/EvdOnderzoeken.jsx";
 import QueryTesting from "./pages/QueryTesting/QueryTesting.jsx";
 import Register, {action as RegisterAction} from "./pages/login/register.jsx";
+import Forgot from "./pages/login/forgot.jsx";
 
 
 const queryClient = new QueryClient();
@@ -17,7 +18,8 @@ const router = createBrowserRouter([
 
   { path: "/querytesting", element: <QueryTesting /> },
   { path: "/register", element: <Register />, action: RegisterAction },
-  {
+  { path: "/forgot", element: <Forgot />,},
+    {
     path: "/deskundig",
     element: <RootLayout />,
     children: [
