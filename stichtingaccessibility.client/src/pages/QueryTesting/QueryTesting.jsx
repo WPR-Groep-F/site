@@ -3,14 +3,13 @@ import axios from 'axios';
 import axiosInstance from "../../Services/axiosInstance.js";
 import {apiPath} from "../../util/api.jsx";
 
-
-const baseURL = window.location.protocol + "//" + window.location.host;
 export default function QueryTesting() {
     const [customer, setCustomer] = React.useState(null);
   
     React.useEffect(() => {
-        axiosInstance.get(apiPath).then((response) => {
+        axiosInstance.get(apiPath + "/api/Customer/1").then((response) => {
         setCustomer(response.data);
+        console.log(response.data)
       });
     }, []);
   
