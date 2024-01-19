@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "serve": "vite preview --port 5173",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "buildAndServe": "npm run build && npm run serve"
   },
   "dependencies": {
     "axios": "^1.6.5",
