@@ -3,7 +3,7 @@ import {Form,useActionData, Link} from "react-router-dom";
 import logo from "../assets/Logo/logo_darkblue.png";
 
 
-function RegisterForm(){
+function ForgotForm(){
     const data = useActionData();
     return(
         <>
@@ -20,28 +20,15 @@ function RegisterForm(){
               <img src={logo} alt="logo" />
               <h1>Accessibility</h1>
             </div>
-
-            <div className={classes["input-box"]}>
-              <input type="username" placeholder="Username" name="username"/>
-              <i class="bx bxs-user"></i>
-            </div>
             <div className={classes["input-box"]}>
               <input type="email" placeholder="E-mail" name="email"/>
               <i class='bx bxs-envelope' ></i>
-            </div>
-            <div className={classes["input-box"]}>
-              <input type="password" placeholder="Password" name="password"/>
-              <i class="bx bxs-lock-alt"></i>
-            </div>
-            <div className={classes["input-box"]}>
-              <input type="password" placeholder="Confirm Password" />
-              <i class="bx bxs-lock-alt"></i>
             </div>
             <div className={classes["forgot-password"]}>
                 <Link to={"/"}><i class='bx bx-left-arrow-alt' ></i> Back to Login</Link>
               </div>
             <button type="Submit" className={classes["btn--register"]}>
-              Registreer
+              Forgot password
             </button>
 
             </Form>
@@ -49,4 +36,4 @@ function RegisterForm(){
     )
 }
 
-export default RegisterForm;
+export default ForgotForm;

@@ -34,7 +34,7 @@ function AuthForm(){
             <div className={classes["forgot-password"]}>
             <Link to={"/forgot"}>Forgot password?</Link>
               <br/>
-              <Link to={"/register"}>Register here</Link>
+              <Link to={"/register"}>Register here <i class='bx bx-right-arrow-alt' ></i></Link>
             </div>
             <div className={classes["OR"]}>
               <p>OR</p>
