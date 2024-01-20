@@ -1,6 +1,6 @@
 namespace StichtingAccessibility.Server.Models;
 
-public class Uitnodiding : Onderzoek
+public class Uitnodiging : Onderzoek
 {
     public int Id { get; set; }
     

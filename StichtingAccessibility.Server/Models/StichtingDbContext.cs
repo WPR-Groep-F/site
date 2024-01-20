@@ -21,7 +21,7 @@ public partial class StichtingDbContext : IdentityDbContext
     public DbSet<Onderzoek> Onderzoeken { get; set; }
     public DbSet<Vragenlijst> Vragenlijsten { get; set; }
     public DbSet<WebsiteOnderzoek> WebsiteOnderzoeken { get; set; }
-    public DbSet<Uitnodiding> Uitnodidingen { get; set; }
+    public DbSet<Uitnodiging> Uitnodidingen { get; set; }
 
     public DbSet<BedrijfsPortaal> BedrijfsPortaalen { get; set; }
     public DbSet<BeheerdersPortaal> BeheerdersPortaal { get; set; }
@@ -41,8 +41,35 @@ public partial class StichtingDbContext : IdentityDbContext
             entity.Property(e => e.FirstName).HasMaxLength(50);
             entity.Property(e => e.LastName).HasMaxLength(50);
         });
+
+        modelBuilder.Entity<Onderzoek>(entity =>
+            {
+                entity.HasMany(e => e.Ervaringsdeskundigen)
+                    .WithMany()
+                    .UsingEntity(j => j.ToTable("OnderzoekErvaringsdeskundig"));
+
+                entity.HasDiscriminator<string>("OnderzoekType")
+                    .HasValue<Vragenlijst>("Vragenlijst")
+                    .HasValue<Uitnodiging>("Uitnodiging")
+                    .HasValue<WebsiteOnderzoek>("WebsiteOnderzoek");
+            });
+            
         
-        
+        modelBuilder.Entity<Ervaringsdeskundig>()
+            .HasMany(e => e.Voogden)
+            .WithMany(v => v.Ervaringsdeskundigen)
+            .UsingEntity(j => j.ToTable("ErvaringsdeskundigVoogd"));
+
+        modelBuilder.Entity<Gebruiker>()
+            .HasDiscriminator<string>("GebruikerType")
+            .HasValue<Beheerder>("Beheerder")
+            .HasValue<Ervaringsdeskundig>("Ervaringsdeskundig")
+            .HasValue<BedrijfsMedewerker>("Bedrijfsmedewerker");
+
+
+
+
+
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

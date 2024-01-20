@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace StichtingAccessibility.Server.Models;
 
-public class Ervaringsdeskundig : IdentityUser
+public class Ervaringsdeskundig : Gebruiker
 {
     public string? VoorkeurDeelname { get; set; }
 
