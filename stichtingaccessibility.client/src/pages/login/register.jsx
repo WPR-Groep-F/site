@@ -34,22 +34,37 @@ function register() {
   export default register;
 
 export async function action({ request }) {
+    
+    try {
+        const data = await request.formData();
+        const registerData = {
+            userName: data.get('username'),
+            password: data.get('password'),
+            email: data.get('email'),
+        };
+        const response = await axios.post(apiPath + "/api/account/registreer", registerData);
+        
+        if (error.response.status === 400 ) {
+            throw json({ message: 'Could not create user.' }, { status: 500 });
+        }
+        else if (!error.response.status === 200){
+            return {status: error.response.status , message: "test" }
+        }
 
-    const data = await request.formData();
-    const registerData = {
-        userName: data.get('username'),
-        password: data.get('password'),
-        email: data.get('email'),
-    };
-    const response = await axios.post(apiPath + "/api/account/registreer", registerData);
-
-    if (!response.status == "200") {
-        throw json({ message: 'Could not create user.' }, { status: 500 });
+        return redirect('/');
+    }
+    catch (error){
+        console.log("In catch")
+        console.log(error.response)
+        if (error.response.status === 400 ) {
+            return { errors: error.response.data.errors, status: error.response.status };
+        }
+        else if (!error.response.status === 200 ){
+            return {status: 500, message: "test" }
+        }
     }
 
 
     // soon: manage that token
     
-
-    return redirect('/');
 }

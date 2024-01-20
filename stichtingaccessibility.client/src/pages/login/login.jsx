@@ -1,10 +1,10 @@
 import classes from "./login.module.css";
 
 import AuthForm from "../../components/AuthForm";
-import {redirect,json} from "react-router-dom";
+import {redirect} from "react-router-dom";
 import axios from "axios";
 import {apiPath} from "../../util/api.jsx";
-import {isDev} from "../../util/development.jsx";
+
 
 function Login() {
   return (
@@ -29,8 +29,6 @@ function Login() {
           <AuthForm />
         </div>
       </div>
-      {console.log(apiPath)}
-      {console.log(isDev())}
     </>
   );
 }
@@ -38,24 +36,36 @@ function Login() {
 export default Login;
 
 export async function action({ request }) {
-  
-  const data = await request.formData();
-  const authData = {
-    userName: data.get('username'),
-    password: data.get('password'),
-  };
-  const response = await axios.post(apiPath + "/api/account/login", authData);
-  
-  if (!response.status == "200") {
-    throw json({ message: 'Could not authenticate user.' }, { status: 500 });
-  }
-  
+  try {
+    const data = await request.formData();
+    const authData = {
+      userName: data.get('username'),
+      password: data.get('password'),
+    };
 
-  // soon: manage that token
-  
-  const token = response.data;
-  
-  localStorage.setItem('token',JSON.stringify(token))
-  
-  return redirect('/deskundig');
+    const response = await axios.post(apiPath + "/api/account/login", authData);
+
+    if (response.status !== 200) {
+      return { status: response.status, message: 'Could not authenticate user.' };
+    }
+    
+    const token = response.data;
+    localStorage.setItem('token', JSON.stringify(token));
+
+    return redirect('/deskundig');
+  } catch (error) {
+    if (error.response) {
+      if (error.response.status === 404) {
+        return {status: 404, message: error.response.data};
+      } else if (error.response.status === 400) {
+        return {status: 400, errors: error.response.data.errors}
+      }
+      else if (error.response.status === 401) {
+          return { status: 401, message: error.response.data };
+      } else {
+        return { status: error.response.status, message: 'Could not authenticate user.' };
+      }
+    }
+    return { status: 500, message: 'An error occurred while making the request.' };
+  }
 }

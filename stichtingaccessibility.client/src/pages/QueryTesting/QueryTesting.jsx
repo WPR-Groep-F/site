@@ -1,5 +1,4 @@
 import React from "react";
-import axios from 'axios';
 import axiosInstance from "../../Services/axiosInstance.js";
 import {apiPath} from "../../util/api.jsx";
 
