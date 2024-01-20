@@ -17,6 +17,19 @@ public partial class StichtingDbContext : IdentityDbContext
     }
 
     public virtual DbSet<Customer> Customers { get; set; }
+
+    public DbSet<Onderzoek> Onderzoeken { get; set; }
+    public DbSet<Vragenlijst> Vragenlijsten { get; set; }
+    public DbSet<WebsiteOnderzoek> WebsiteOnderzoeken { get; set; }
+    public DbSet<Uitnodiding> Uitnodidingen { get; set; }
+
+    public DbSet<BedrijfsPortaal> BedrijfsPortaalen { get; set; }
+    public DbSet<BeheerdersPortaal> BeheerdersPortaal { get; set; }
+
+    public DbSet<BedrijfsMedewerker> BedrijfsMedewerkers { get; set; }
+    public DbSet<Beheerder> Beheerders { get; set; }
+    public DbSet<Ervaringsdeskundig> Ervaringsdeskundigen { get; set; }
+    public DbSet<Voogd> Voogden { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,6 +41,8 @@ public partial class StichtingDbContext : IdentityDbContext
             entity.Property(e => e.FirstName).HasMaxLength(50);
             entity.Property(e => e.LastName).HasMaxLength(50);
         });
+        
+        
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
