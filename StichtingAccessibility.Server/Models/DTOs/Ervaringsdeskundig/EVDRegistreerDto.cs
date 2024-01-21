@@ -1,4 +1,4 @@
-namespace StichtingAccessibility.Server.Models.DataTransferObjects.Ervaringsdeskundig;
+namespace StichtingAccessibility.Server.Models.DTOs.Ervaringsdeskundig;
 
 public class EVDRegistreerDto
 {
