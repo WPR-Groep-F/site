@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,7 +29,7 @@ public partial class StichtingDbContext : IdentityDbContext<IdentityUser>
     public DbSet<Beheerder> Beheerders { get; set; }
     public DbSet<Ervaringsdeskundig> Ervaringsdeskundigen { get; set; }
     public DbSet<Voogd> Voogden { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -43,18 +42,18 @@ public partial class StichtingDbContext : IdentityDbContext<IdentityUser>
         });
 
         modelBuilder.Entity<Onderzoek>(entity =>
-            {
-                entity.HasMany(e => e.Ervaringsdeskundigen)
-                    .WithMany()
-                    .UsingEntity(j => j.ToTable("OnderzoekErvaringsdeskundig"));
+        {
+            entity.HasMany(e => e.Ervaringsdeskundigen)
+                .WithMany()
+                .UsingEntity(j => j.ToTable("OnderzoekErvaringsdeskundig"));
 
-                entity.HasDiscriminator<string>("OnderzoekType")
-                    .HasValue<Vragenlijst>("Vragenlijst")
-                    .HasValue<Uitnodiging>("Uitnodiging")
-                    .HasValue<WebsiteOnderzoek>("WebsiteOnderzoek");
-            });
-            
-        
+            entity.HasDiscriminator<string>("OnderzoekType")
+                .HasValue<Vragenlijst>("Vragenlijst")
+                .HasValue<Uitnodiging>("Uitnodiging")
+                .HasValue<WebsiteOnderzoek>("WebsiteOnderzoek");
+        });
+
+
         modelBuilder.Entity<Ervaringsdeskundig>()
             .HasMany(e => e.Voogden)
             .WithMany(v => v.Ervaringsdeskundigen)
@@ -66,18 +65,12 @@ public partial class StichtingDbContext : IdentityDbContext<IdentityUser>
                 .HasValue<Beheerder>("Beheerder")
                 .HasValue<Ervaringsdeskundig>("Ervaringsdeskundig")
                 .HasValue<BedrijfsMedewerker>("Bedrijfsmedewerker");
-
         });
-            
+
 
         modelBuilder.Entity<BedrijfsPortaal>()
             .HasDiscriminator<string>("PortaalType")
             .HasValue<BeheerdersPortaal>("BeheerderPortaal");
-
-
-
-
-
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

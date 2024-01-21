@@ -51,7 +51,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireBeheeder", policy => policy.RequireRole("Beheerder"));
     options.AddPolicy("RequireBedrijf", policy => policy.RequireRole("Bedrijfmedewerker", "Beheerder"));
-    options.AddPolicy("RequireDeskundig", policy => policy.RequireRole("Ervaringsdeskundig","Beheerder"));
+    options.AddPolicy("RequireDeskundig", policy => policy.RequireRole("Ervaringsdeskundig", "Beheerder"));
 });
 
 
@@ -89,7 +89,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-await RoleSetup.InitializeAsync(app.Services);
+//await RoleSetup.InitializeAsync(app.Services);
 
 
 app.UseAuthentication();
