@@ -12,15 +12,23 @@ public class Ervaringsdeskundig : Gebruiker
     public string Adres { get; set; } = null!;
 
 
-    public List<Voogd> Voogden { get; set; } = new List<Voogd>();
+    public List<Voogd> Voogden { get; set; } = new();
 
-    public List<BenaderingsOpties> BenaderingsOptiesList { get; set; } = new List<BenaderingsOpties>();
+    public List<BenaderingsOpties> BenaderingsOptiesList { get; set; } = new();
 
-    public List<VoorkeurOnderzoek> VoorkeurOnderzoekList { get; set; } = new List<VoorkeurOnderzoek>();
-
-
-
+    public List<VoorkeurOnderzoek> VoorkeurOnderzoekList { get; set; } = new();
 }
 
-public enum BenaderingsOpties {viaPortaal,Telefonisch}
-public enum VoorkeurOnderzoek {interview,groepsgesprekken,engelstaligonderzoek,onlineonderzoek}
+public enum BenaderingsOpties
+{
+    viaPortaal,
+    Telefonisch
+}
+
+public enum VoorkeurOnderzoek
+{
+    interview,
+    groepsgesprekken,
+    engelstaligonderzoek,
+    onlineonderzoek
+}

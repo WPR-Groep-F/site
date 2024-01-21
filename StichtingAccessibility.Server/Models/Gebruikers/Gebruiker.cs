@@ -8,7 +8,7 @@ public class Gebruiker : IdentityUser
     public DateTime DateOfBirth { get; set; }
 
     [NotMapped]
-    public int Leeftijd 
+    public int Leeftijd
     {
         get
         {
@@ -18,5 +18,4 @@ public class Gebruiker : IdentityUser
             return leeftijd;
         }
     }
-
 }

@@ -4,5 +4,4 @@ namespace StichtingAccessibility.Server.Models;
 
 public class Beheerder : Gebruiker
 {
-    
 }
