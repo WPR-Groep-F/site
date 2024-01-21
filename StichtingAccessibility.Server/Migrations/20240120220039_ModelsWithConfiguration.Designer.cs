@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StichtingAccessibility.Server.Models;
 
@@ -11,9 +12,11 @@ using StichtingAccessibility.Server.Models;
 namespace StichtingAccessibility.Server.Migrations
 {
     [DbContext(typeof(StichtingDbContext))]
-    partial class StichtingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240120220039_ModelsWithConfiguration")]
+    partial class ModelsWithConfiguration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -279,7 +282,7 @@ namespace StichtingAccessibility.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PortaalType")
+                    b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasMaxLength(21)
                         .HasColumnType("nvarchar(21)");
@@ -288,7 +291,7 @@ namespace StichtingAccessibility.Server.Migrations
 
                     b.ToTable("BedrijfsPortaalen");
 
-                    b.HasDiscriminator<string>("PortaalType").HasValue("BedrijfsPortaal");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("BedrijfsPortaal");
 
                     b.UseTphMappingStrategy();
                 });
@@ -444,9 +447,6 @@ namespace StichtingAccessibility.Server.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
                     b.HasDiscriminator().HasValue("Gebruiker");
                 });
 
@@ -454,7 +454,7 @@ namespace StichtingAccessibility.Server.Migrations
                 {
                     b.HasBaseType("StichtingAccessibility.Server.Models.BedrijfsPortaal");
 
-                    b.HasDiscriminator().HasValue("BeheerderPortaal");
+                    b.HasDiscriminator().HasValue("BeheerdersPortaal");
                 });
 
             modelBuilder.Entity("StichtingAccessibility.Server.Models.Uitnodiging", b =>
