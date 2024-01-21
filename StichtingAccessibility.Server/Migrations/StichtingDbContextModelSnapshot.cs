@@ -22,6 +22,36 @@ namespace StichtingAccessibility.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ErvaringsdeskundigOnderzoek", b =>
+                {
+                    b.Property<string>("ErvaringsdeskundigenId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("OnderzoekId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ErvaringsdeskundigenId", "OnderzoekId");
+
+                    b.HasIndex("OnderzoekId");
+
+                    b.ToTable("OnderzoekErvaringsdeskundig", (string)null);
+                });
+
+            modelBuilder.Entity("ErvaringsdeskundigVoogd", b =>
+                {
+                    b.Property<string>("ErvaringsdeskundigenId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("VoogdenId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ErvaringsdeskundigenId", "VoogdenId");
+
+                    b.HasIndex("VoogdenId");
+
+                    b.ToTable("ErvaringsdeskundigVoogd", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -93,6 +123,11 @@ namespace StichtingAccessibility.Server.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("GebruikerType")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -137,6 +172,10 @@ namespace StichtingAccessibility.Server.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("GebruikerType").HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -220,6 +259,40 @@ namespace StichtingAccessibility.Server.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.BedrijfsPortaal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BedrijfAdres")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BedrijfInformatie")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BedrijfNaam")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PortaalType")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BedrijfsPortaalen");
+
+                    b.HasDiscriminator<string>("PortaalType").HasValue("BedrijfsPortaal");
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("StichtingAccessibility.Server.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
@@ -247,6 +320,263 @@ namespace StichtingAccessibility.Server.Migrations
                         .HasName("PK__Customer__A4AE64D8BBE16905");
 
                     b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.Onderzoek", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BedrijfId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Beschrijving")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("DatumGeplaatst")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("IsGekeurd")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OnderzoekType")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
+
+                    b.Property<string>("Titel")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BedrijfId");
+
+                    b.ToTable("Onderzoeken");
+
+                    b.HasDiscriminator<string>("OnderzoekType").HasValue("Onderzoek");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.Tracking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Script")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Uitslag")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tracking");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.Voogd", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("EmailAdres")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Naam")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TelNr")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Voogden");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.Vraag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Antwoord")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Beschrijving")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Titel")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("VragenlijstId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VragenlijstId");
+
+                    b.ToTable("Vraag");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.Gebruiker", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.HasDiscriminator().HasValue("Gebruiker");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.BeheerdersPortaal", b =>
+                {
+                    b.HasBaseType("StichtingAccessibility.Server.Models.BedrijfsPortaal");
+
+                    b.HasDiscriminator().HasValue("BeheerderPortaal");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.Uitnodiging", b =>
+                {
+                    b.HasBaseType("StichtingAccessibility.Server.Models.Onderzoek");
+
+                    b.Property<string>("AdresLocatie")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("Datum")
+                        .HasColumnType("date");
+
+                    b.Property<string>("RouteBeschrijving")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeOnly>("Tijd")
+                        .HasColumnType("time");
+
+                    b.HasDiscriminator().HasValue("Uitnodiging");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.Vragenlijst", b =>
+                {
+                    b.HasBaseType("StichtingAccessibility.Server.Models.Onderzoek");
+
+                    b.HasDiscriminator().HasValue("Vragenlijst");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.WebsiteOnderzoek", b =>
+                {
+                    b.HasBaseType("StichtingAccessibility.Server.Models.Onderzoek");
+
+                    b.Property<int?>("TrackingId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("TrackingId");
+
+                    b.HasDiscriminator().HasValue("WebsiteOnderzoek");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.BedrijfsMedewerker", b =>
+                {
+                    b.HasBaseType("StichtingAccessibility.Server.Models.Gebruiker");
+
+                    b.Property<int?>("BedrijfsPortaalId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("BedrijfsPortaalId");
+
+                    b.HasDiscriminator().HasValue("Bedrijfsmedewerker");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.Beheerder", b =>
+                {
+                    b.HasBaseType("StichtingAccessibility.Server.Models.Gebruiker");
+
+                    b.Property<int?>("BeheerdersPortaalId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("BeheerdersPortaalId");
+
+                    b.HasDiscriminator().HasValue("Beheerder");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.Ervaringsdeskundig", b =>
+                {
+                    b.HasBaseType("StichtingAccessibility.Server.Models.Gebruiker");
+
+                    b.Property<string>("Adres")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BenaderingOpties")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BenaderingsOptiesList")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VoorkeurDeelname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VoorkeurOnderzoekList")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Ervaringsdeskundig");
+                });
+
+            modelBuilder.Entity("ErvaringsdeskundigOnderzoek", b =>
+                {
+                    b.HasOne("StichtingAccessibility.Server.Models.Ervaringsdeskundig", null)
+                        .WithMany()
+                        .HasForeignKey("ErvaringsdeskundigenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StichtingAccessibility.Server.Models.Onderzoek", null)
+                        .WithMany()
+                        .HasForeignKey("OnderzoekId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ErvaringsdeskundigVoogd", b =>
+                {
+                    b.HasOne("StichtingAccessibility.Server.Models.Ervaringsdeskundig", null)
+                        .WithMany()
+                        .HasForeignKey("ErvaringsdeskundigenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StichtingAccessibility.Server.Models.Voogd", null)
+                        .WithMany()
+                        .HasForeignKey("VoogdenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -298,6 +628,64 @@ namespace StichtingAccessibility.Server.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.Onderzoek", b =>
+                {
+                    b.HasOne("StichtingAccessibility.Server.Models.BedrijfsPortaal", "Bedrijf")
+                        .WithMany("Onderzoeken")
+                        .HasForeignKey("BedrijfId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bedrijf");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.Vraag", b =>
+                {
+                    b.HasOne("StichtingAccessibility.Server.Models.Vragenlijst", null)
+                        .WithMany("Vragen")
+                        .HasForeignKey("VragenlijstId");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.WebsiteOnderzoek", b =>
+                {
+                    b.HasOne("StichtingAccessibility.Server.Models.Tracking", "Tracking")
+                        .WithMany()
+                        .HasForeignKey("TrackingId");
+
+                    b.Navigation("Tracking");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.BedrijfsMedewerker", b =>
+                {
+                    b.HasOne("StichtingAccessibility.Server.Models.BedrijfsPortaal", null)
+                        .WithMany("BedrijfsMedewerkers")
+                        .HasForeignKey("BedrijfsPortaalId");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.Beheerder", b =>
+                {
+                    b.HasOne("StichtingAccessibility.Server.Models.BeheerdersPortaal", null)
+                        .WithMany("Beheerders")
+                        .HasForeignKey("BeheerdersPortaalId");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.BedrijfsPortaal", b =>
+                {
+                    b.Navigation("BedrijfsMedewerkers");
+
+                    b.Navigation("Onderzoeken");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.BeheerdersPortaal", b =>
+                {
+                    b.Navigation("Beheerders");
+                });
+
+            modelBuilder.Entity("StichtingAccessibility.Server.Models.Vragenlijst", b =>
+                {
+                    b.Navigation("Vragen");
                 });
 #pragma warning restore 612, 618
         }

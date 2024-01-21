@@ -2,20 +2,21 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using StichtingAccessibility.Server.Data.Setup;
 using StichtingAccessibility.Server.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy  =>
-                      {
-                          policy.WithOrigins("https://localhost:5173", "https://groepf.azurewebsites.net")
-                              .AllowAnyHeader()
-                              .AllowAnyMethod();
-                      });
+    options.AddPolicy(MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:5173", "https://groepf.azurewebsites.net")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
 });
 
 // Add services to the container.
@@ -31,7 +32,7 @@ builder.Services.AddAuthentication(opt =>
     opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(opt =>
 {
-    opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    opt.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidateAudience = true,
@@ -39,15 +40,26 @@ builder.Services.AddAuthentication(opt =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = "https://localhost:7047",
         ValidAudience = "https://localhost:7047",
-        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("awef98awef978haweof8g7aw789efhh789awef8h9awh89efh89awe98f89uawef9j8aw89hefawef"))
+        IssuerSigningKey =
+            new SymmetricSecurityKey(
+                System.Text.Encoding.UTF8.GetBytes(
+                    "awef98awef978haweof8g7aw789efhh789awef8h9awh89efh89awe98f89uawef9j8aw89hefawef"))
     };
 });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireBeheeder", policy => policy.RequireRole("Beheerder"));
+    options.AddPolicy("RequireBedrijf", policy => policy.RequireRole("Bedrijfmedewerker", "Beheerder"));
+    options.AddPolicy("RequireDeskundig", policy => policy.RequireRole("Ervaringsdeskundig", "Beheerder"));
+});
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<StichtingDbContext>(options =>
 {
-    var connection = String.Empty;
+    var connection = string.Empty;
     if (builder.Environment.IsDevelopment())
     {
         builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
@@ -57,8 +69,10 @@ builder.Services.AddDbContext<StichtingDbContext>(options =>
     {
         connection = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING");
     }
+
     options.UseSqlServer(connection);
 });
+
 
 var app = builder.Build();
 
@@ -74,6 +88,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//await RoleSetup.InitializeAsync(app.Services);
+
 
 app.UseAuthentication();
 app.UseAuthorization();
