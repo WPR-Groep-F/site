@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using StichtingAccessibility.Server.Models;
+using StichtingAccessibility.Server.Models.DTOs.Ervaringsdeskundig;
 
 namespace StichtingAccessibility.Server.Controllers;
 
@@ -28,12 +29,17 @@ public class AccountController : ControllerBase
 
     [HttpPost]
     [Route("registreer")]
-    public async Task<ActionResult<IEnumerable<Customer>>> Registreer([FromBody] GebruikerMetWachwoord gebruikerMetWachwoord)
+    public async Task<ActionResult<IEnumerable<Customer>>> Registreer([FromBody] EVDRegistreerDto evdRegistreerDto)
     {
-        var resultaat = await _userManager.CreateAsync(gebruikerMetWachwoord, gebruikerMetWachwoord.Password);
+        var ervaringsdeskundig = new Ervaringsdeskundig 
+        { 
+            UserName = evdRegistreerDto.UserName, 
+            Email = evdRegistreerDto.Email 
+        };
+
+        var resultaat = await _userManager.CreateAsync(ervaringsdeskundig, evdRegistreerDto.Password);
         return !resultaat.Succeeded ? new BadRequestObjectResult(resultaat) : StatusCode(201);
     }
-    
     
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] GebruikerLogin gebruikerLogin)

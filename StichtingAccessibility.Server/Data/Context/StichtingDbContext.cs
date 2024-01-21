@@ -1,10 +1,11 @@
 ﻿
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace StichtingAccessibility.Server.Models;
 
-public partial class StichtingDbContext : IdentityDbContext
+public partial class StichtingDbContext : IdentityDbContext<IdentityUser>
 {
     public StichtingDbContext()
     {

@@ -6,7 +6,7 @@ using StichtingAccessibility.Server.Models;
 
 namespace DotnetWebApiWithEF.Controllers
 {
-    [Authorize]
+    [Authorize (Roles = "Beheerder")]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase
