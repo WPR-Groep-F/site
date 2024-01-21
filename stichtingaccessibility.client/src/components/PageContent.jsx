@@ -1,4 +1,4 @@
-function PageContent({ title, children }) {
+function PageContent({title, children}) {
     return (
         <div>
             <h1>{title}</h1>
