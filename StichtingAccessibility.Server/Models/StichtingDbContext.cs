@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -60,11 +59,19 @@ public partial class StichtingDbContext : IdentityDbContext
             .WithMany(v => v.Ervaringsdeskundigen)
             .UsingEntity(j => j.ToTable("ErvaringsdeskundigVoogd"));
 
-        modelBuilder.Entity<Gebruiker>()
-            .HasDiscriminator<string>("GebruikerType")
-            .HasValue<Beheerder>("Beheerder")
-            .HasValue<Ervaringsdeskundig>("Ervaringsdeskundig")
-            .HasValue<BedrijfsMedewerker>("Bedrijfsmedewerker");
+        modelBuilder.Entity<Gebruiker>(entity =>
+        {
+            entity.HasDiscriminator<string>("GebruikerType")
+                .HasValue<Beheerder>("Beheerder")
+                .HasValue<Ervaringsdeskundig>("Ervaringsdeskundig")
+                .HasValue<BedrijfsMedewerker>("Bedrijfsmedewerker");
+
+        });
+            
+
+        modelBuilder.Entity<BedrijfsPortaal>()
+            .HasDiscriminator<string>("PortaalType")
+            .HasValue<BeheerdersPortaal>("BeheerderPortaal");
 
 
 

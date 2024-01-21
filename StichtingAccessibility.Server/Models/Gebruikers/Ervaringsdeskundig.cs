@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace StichtingAccessibility.Server.Models;
@@ -9,6 +10,7 @@ public class Ervaringsdeskundig : Gebruiker
     public string? BenaderingOpties { get; set; }
 
     public string Adres { get; set; } = null!;
+
 
     public List<Voogd> Voogden { get; set; } = new List<Voogd>();
 
