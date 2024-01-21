@@ -2,7 +2,7 @@ import Navbar from "../components/layout/Navbar.jsx";
 import PageContent from "../components/PageContent.jsx";
 import {useRouteError} from "react-router-dom"
 
-function ErrorPage(){
+function ErrorPage() {
     const error = useRouteError();
 
     let title = 'An error occurred!';
@@ -16,7 +16,7 @@ function ErrorPage(){
         title = 'Not found!';
         message = 'Could not find resource or page.';
     }
-    return(
+    return (
         <>
             <Navbar/>
             <PageContent title={title}>

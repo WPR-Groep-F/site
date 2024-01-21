@@ -1,12 +1,12 @@
 import classes from "./AuthForm.module.css"
-import {Form,useActionData, Link} from "react-router-dom";
+import {Form, useActionData, Link} from "react-router-dom";
 import logo from "../assets/Logo/logo_darkblue.png";
 import rmstyle from "./removestyle.module.css";
 
 
-function RegisterForm(){
+function RegisterForm() {
     const data = useActionData();
-    return(
+    return (
         <>
             <Form method="post">
                 {data && data.errors && (
@@ -18,7 +18,7 @@ function RegisterForm(){
                 )}
                 {data && data.message && <p>{data.message}</p>}
                 <div className={classes["logo"]}>
-                    <img src={logo} alt="logo" />
+                    <img src={logo} alt="logo"/>
                     <h1>Accessibility</h1>
                 </div>
 
@@ -28,18 +28,18 @@ function RegisterForm(){
                 </div>
                 <div className={classes["input-box"]}>
                     <input type="email" placeholder="E-mail" name="email"/>
-                    <i className='bx bxs-envelope' ></i>
+                    <i className='bx bxs-envelope'></i>
                 </div>
                 <div className={classes["input-box"]}>
                     <input type="password" placeholder="Password" name="password"/>
                     <i className="bx bxs-lock-alt"></i>
                 </div>
                 <div className={classes["input-box"]}>
-                    <input type="password" placeholder="Confirm Password" />
+                    <input type="password" placeholder="Confirm Password"/>
                     <i className="bx bxs-lock-alt"></i>
                 </div>
                 <div className={classes["forgot-password"]}>
-                    <Link to={"/"}><i className='bx bx-left-arrow-alt' ></i> Back to Login</Link>
+                    <Link to={"/"}><i className='bx bx-left-arrow-alt'></i> Back to Login</Link>
                 </div>
                 <button type="Submit" className={classes["btn--register"]}>
                     Registreer

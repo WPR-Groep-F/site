@@ -1,7 +1,8 @@
 import classes from './EvdOnderzoeken.module.css'
-function EvdOnderzoeken(){
+
+function EvdOnderzoeken() {
     return <>
-    <h1>Deskundig onderzoeken pagina</h1>
+        <h1>Deskundig onderzoeken pagina</h1>
     </>
 }
 
