@@ -9,51 +9,38 @@ public class RoleSetup
     {
         using var scope = services.CreateScope();
         var scopedServices = scope.ServiceProvider;
-    
+
         var userManager = scopedServices.GetRequiredService<UserManager<IdentityUser>>();
         var roleManager = scopedServices.GetRequiredService<RoleManager<IdentityRole>>();
-        
-       
     }
-    
 
-    private static async Task CreateRole(RoleManager<IdentityRole> _roleManager,List<string> _role)
+
+    private static async Task CreateRole(RoleManager<IdentityRole> _roleManager, List<string> _role)
     {
         foreach (var role in _role)
-        {
             if (!await _roleManager.RoleExistsAsync(role))
-            {
                 await _roleManager.CreateAsync(new IdentityRole(role));
-            }
             else
-            {
                 Console.WriteLine("role already exists " + _role);
-            }
-            
-        }
-        
     }
-    
-    private static async Task DeleteUser(UserManager<IdentityUser> _userManager,string _userName)
+
+    private static async Task DeleteUser(UserManager<IdentityUser> _userManager, string _userName)
     {
-        IdentityUser beheederuser = await _userManager.FindByNameAsync(_userName);
+        var beheederuser = await _userManager.FindByNameAsync(_userName);
 
         if (beheederuser is not null)
         {
             var result = await _userManager.DeleteAsync(beheederuser);
 
             if (result.Succeeded)
-            {
                 Console.WriteLine("succes");
-            }
             else
-            {
                 Console.WriteLine("fail to delete" + _userName);
-            }
         }
     }
-    
-    private static async Task CreateUser(UserManager<IdentityUser> userManager, string userName, string password, string role, string userType)
+
+    private static async Task CreateUser(UserManager<IdentityUser> userManager, string userName, string password,
+        string role, string userType)
     {
         if (userManager.FindByNameAsync(userName).Result is not null)
         {
@@ -79,9 +66,6 @@ public class RoleSetup
 
         var result = await userManager.CreateAsync(user, password);
 
-        if (result.Succeeded)
-        {
-            await userManager.AddToRoleAsync(user, role);
-        }
+        if (result.Succeeded) await userManager.AddToRoleAsync(user, role);
     }
 }

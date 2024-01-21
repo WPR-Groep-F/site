@@ -3,7 +3,7 @@ namespace StichtingAccessibility.Server.Models;
 public class Uitnodiging : Onderzoek
 {
     public int Id { get; set; }
-    
+
     public string AdresLocatie { get; set; } = null!;
 
     public DateOnly Datum { get; set; }

@@ -1,42 +1,56 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <InvariantGlobalization>false</InvariantGlobalization>
-    <SpaRoot>..\stichtingaccessibility.client</SpaRoot>
-    
-    <SpaProxyServerUrl>https://localhost:5173</SpaProxyServerUrl>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <InvariantGlobalization>false</InvariantGlobalization>
+        <SpaRoot>..\stichtingaccessibility.client</SpaRoot>
 
-  <PropertyGroup Condition="'$(ASPNETCORE_ENVIRONMENT)' == 'Production'">
-    <SpaProxyLaunchCommand><![CDATA[npm run buildAndServe]]></SpaProxyLaunchCommand>
-  </PropertyGroup>
+        <SpaProxyServerUrl>https://localhost:5173</SpaProxyServerUrl>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(ASPNETCORE_ENVIRONMENT)' != 'Production' Or '$(ASPNETCORE_ENVIRONMENT)' == ''">
-    <SpaProxyLaunchCommand><![CDATA[npm run dev]]></SpaProxyLaunchCommand>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(ASPNETCORE_ENVIRONMENT)' == 'Production'">
+        <SpaProxyLaunchCommand><![CDATA[npm run buildAndServe]]></SpaProxyLaunchCommand>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(ASPNETCORE_ENVIRONMENT)' != 'Production' Or '$(ASPNETCORE_ENVIRONMENT)' == ''">
+        <SpaProxyLaunchCommand><![CDATA[npm run dev]]></SpaProxyLaunchCommand>
+    </PropertyGroup>
 
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
-      <Version>8.*-*</Version>
-    </PackageReference> 
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
+            <Version>8.*-*</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\stichtingaccessibility.client\stichtingaccessibility.client.esproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\stichtingaccessibility.client\stichtingaccessibility.client.esproj">
+            <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+        </ProjectReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <_ContentIncludedByDefault Remove="Views\Ervaringsdeskundigen\Create.cshtml"/>
+        <_ContentIncludedByDefault Remove="Views\Ervaringsdeskundigen\Delete.cshtml"/>
+        <_ContentIncludedByDefault Remove="Views\Ervaringsdeskundigen\Details.cshtml"/>
+        <_ContentIncludedByDefault Remove="Views\Ervaringsdeskundigen\Edit.cshtml"/>
+        <_ContentIncludedByDefault Remove="Views\Ervaringsdeskundigen\Index.cshtml"/>
+        <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml"/>
+    </ItemGroup>
 
 </Project>
