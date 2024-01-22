@@ -45,7 +45,6 @@
     "concat-map": "^0.0.1",
     "core-util-is": "^1.0.2",
     "cross-spawn": "^7.0.3",
-    "cypress": "^13.6.3",
     "dashdash": "^1.14.1",
     "dayjs": "^1.11.10",
     "debug": "^4.3.4",
@@ -176,9 +175,12 @@
     "yallist": "^4.0.0",
     "yauzl": "^2.10.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "cypress": "^13.6.3"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:open": "cypress:open"
   },
   "repository": {
     "type": "git",
