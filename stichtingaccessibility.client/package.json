@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "test": "test",
+    "cypress:open":"cypress open",
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview --port 5173",
