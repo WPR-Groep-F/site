@@ -29,6 +29,7 @@ public partial class StichtingDbContext : IdentityDbContext<IdentityUser>
     public DbSet<Beheerder> Beheerders { get; set; }
     public DbSet<Ervaringsdeskundig> Ervaringsdeskundigen { get; set; }
     public DbSet<Voogd> Voogden { get; set; }
+    public DbSet<Invite> Invites { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
