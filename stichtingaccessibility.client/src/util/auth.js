@@ -1,4 +1,5 @@
 export function getAuthToken() {
-    const token = localStorage.getItem('token');
-    return token;
+    const tokenObject = JSON.parse(localStorage.getItem('token'));
+    const tokenValue = tokenObject.token;
+    return tokenValue;
 }
