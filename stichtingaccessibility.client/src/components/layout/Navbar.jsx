@@ -1,10 +1,10 @@
 import React, {useState} from "react";
-import {NavLink, Form} from "react-router-dom";
+import {Form} from "react-router-dom";
 import logo from "../../assets/Logo/logo_darkblue.png";
 import classes from "./Navbar.module.css";
-import './Navbar.module.css'
+import NavItem from "./NavItem.jsx";
 
-function Navbar() {
+function Navbar({navItems}) {
     const [menuOpen, setMenuOpen] = useState(false);
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -22,42 +22,13 @@ function Navbar() {
                     <i className="bx bx-menu"></i>
                 </div>
                 <ul className={`${classes.navList} ${menuOpen ? 'menu-open' : 'menu-closed'}`}>
-                    <li>
-                        <NavLink
-                            to=""
-                            className={({isActive}) =>
-                                isActive ? classes.active : undefined
-                            }
-                            end
-                        >
-                            <i className="bx bxs-home"></i> Home
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="profiel"
-                            className={({isActive}) =>
-                                isActive ? classes.active : undefined
-                            }
-                        >
-                            <i className="bx bxs-user"></i> Profile
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="Onderzoeken"
-                            className={({isActive}) =>
-                                isActive ? classes.active : undefined
-                            }
-                        >
-                            <i className="bx bxs-book-open"></i> Onderzoeken
-                        </NavLink>
-                    </li>
+                    {navItems.map((item, index) => (
+                        <NavItem key={index} IconClass={item.iconClass} Name={item.name} Naar={item.naar} End={item.End} />
+                    ))}
                     <li>
                         <Form action="/logout" method="post">
                             <button>Logout</button>
                         </Form>
-
                     </li>
                 </ul>
             </nav>

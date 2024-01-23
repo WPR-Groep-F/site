@@ -1,7 +1,7 @@
 import {Outlet} from "react-router-dom";
 import Navbar from "./Navbar.jsx";
 
-function RootLayout() {
+function RootLayout(props) {
     return (
         <>
             <Navbar/>

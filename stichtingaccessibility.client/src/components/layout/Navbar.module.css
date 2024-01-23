@@ -23,18 +23,6 @@ nav ul {
     display: flex;
 }
 
-nav ul li {
-    list-style: none;
-}
-
-nav ul li a {
-    display: block;
-    text-decoration: none;
-    color: white;
-    padding: 10px;
-    margin: 0 10px;
-    border-radius: 10px;
-}
 
 nav .logo {
     color: white;
@@ -42,9 +30,7 @@ nav .logo {
     height: 70px;
 }
 
-nav ul li a:hover {
-    background-color: #172554;
-}
+
 
 nav .menu {
     display: none;
