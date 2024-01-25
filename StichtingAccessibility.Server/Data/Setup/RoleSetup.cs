@@ -12,6 +12,13 @@ public class RoleSetup
 
         var userManager = scopedServices.GetRequiredService<UserManager<IdentityUser>>();
         var roleManager = scopedServices.GetRequiredService<RoleManager<IdentityRole>>();
+
+        List<string> rollen = new List<string>{"Ervaringsdeskundig","BedrijfMedewerker","Beheerder"};
+
+        // await CreateRole(roleManager, rollen);
+        // await CreateUser(userManager, "Rick", "Rick123!", "Beheerder", "Beheerder");
+        // await CreateUser(userManager, "Rickevd", "Rickevd123!", "Ervaringsdeskundig", "Ervaringsdeskundig");
+        
     }
 
 
