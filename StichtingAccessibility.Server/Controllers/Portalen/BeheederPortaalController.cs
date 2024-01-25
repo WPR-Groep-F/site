@@ -128,4 +128,24 @@ var invites = await _context.Invites
     return Ok(getAllInviteDtos);
 
     }
+
+[HttpPost("NewBedrijfsPortaal")]
+public async Task<IActionResult> NewBedrijfsPortaal([FromBody] CreateNewBedrijfportaalDto newBedrijfsPortaal)
+{
+
+    BedrijfsPortaal bedrijfsPortaal = new BedrijfsPortaal
+    {
+        BedrijfNaam = newBedrijfsPortaal.BedrijfNaam,
+        BedrijfAdres = newBedrijfsPortaal.BedrijfAdres,
+        BedrijfInformatie = newBedrijfsPortaal.BedrijfInformatie
+    };
+    // Add the new BedrijfsPortaal to the context
+    _context.BedrijfsPortaalen.Add(bedrijfsPortaal);
+
+    // Save the changes to the database
+    await _context.SaveChangesAsync();
+
+    // Return a success response
+    return Ok();
+}
 }
