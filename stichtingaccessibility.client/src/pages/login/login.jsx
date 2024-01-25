@@ -1,9 +1,11 @@
+
 import classes from "./login.module.css";
 
 import AuthForm from "../../components/AuthForm";
-import {redirect} from "react-router-dom";
 import axios from "axios";
 import {apiPath} from "../../util/api.jsx";
+import { jwtDecode } from "jwt-decode";
+import { redirect } from "react-router-dom";
 
 
 function Login() {
@@ -50,10 +52,37 @@ export async function action({request}) {
         }
 
         const token = response.data;
-        localStorage.setItem('token', JSON.stringify(token));
+        const tokenString = JSON.stringify(token);
+        localStorage.setItem('token', tokenString);
+        
 
-        return redirect('/deskundig');
+
+        if (tokenString) {
+            
+            const decodedToken = jwtDecode(tokenString);
+
+
+            const role = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+
+            switch (role) {
+                case 'Ervaringsdeskundig':
+                    return redirect('/deskundig');
+                    break;
+                case 'BedrijfMedewerker':
+                    return redirect('/bedrijfportaal');
+                    break;
+                case 'Beheerder':
+                    return redirect('/beheerderportaal');
+                    break;
+                default:
+                    return redirect('/');
+                    break;
+            }
+        }
+        
+        
     } catch (error) {
+        console.log(error)
         if (error.response) {
             if (error.response.status === 404) {
                 return {status: 404, message: error.response.data};

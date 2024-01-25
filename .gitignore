@@ -671,3 +671,4 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
+/StichtingAccessibility.Server/appsettings.Development.json

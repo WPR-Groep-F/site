@@ -1,11 +1,23 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using StichtingAccessibility.Server.Models;
 
 namespace StichtingAccessibility.Server.Controllers;
-
+[Authorize(Roles = "Beheerder")]
 [Route("api/[controller]")]
 [ApiController]
 public class BeheerderPortaalController : ControllerBase
 {
+    private readonly StichtingDbContext _context;
+    private readonly SignInManager<IdentityUser> _signInManager;
+    
+    public BeheerderPortaalController(StichtingDbContext context, SignInManager<IdentityUser> signInManager)
+    {
+        _context = context;
+        _signInManager = signInManager;
+    }
     [HttpGet("GetBedrijven")]
     public async Task<IActionResult> GetBedrijven()
     {
@@ -48,10 +60,72 @@ public class BeheerderPortaalController : ControllerBase
 
 
     [HttpPost("InviteBedrijf")]
-    public async Task<IActionResult> CreateBedrijf()
+    public async Task<IActionResult> InviteBedrijf([FromBody] InviteDto inviteDto)
     {
-        // Implementation goes here...
+        Guid identifier = Guid.NewGuid();
+        
+        var beheerder = await _signInManager.UserManager.FindByNameAsync(User.Identity.Name) as Beheerder;
+
+        if (beheerder == null)
+        {
+            return BadRequest("User not found or not a Beheerder");
+        }
+
+        Invite invite = new Invite()
+        {
+            DatumGemaakt = DateTime.Now, 
+            Identifier = identifier, 
+            Uitgever = beheerder, 
+            VerloopDatum = DateTime.Now.AddDays(7),
+            InviteEmail = inviteDto.email,
+            InviteNaam = inviteDto.naam
+        };
+        
+        beheerder.Invites.Add(invite);
+
+
+        await _context.SaveChangesAsync();
 
         return Ok();
+    }
+    [HttpGet("InviteBedrijf")]
+    public async Task<IActionResult> GetAllInviteBedrijf()
+    {
+
+    var beheerder = await _signInManager.UserManager.FindByNameAsync(User.Identity.Name) as Beheerder;
+
+    var isInRoll = await _signInManager.UserManager.IsInRoleAsync(beheerder, "Beheerder");
+    if (!isInRoll)
+    {
+        return BadRequest();
+    }
+    else if(beheerder == null){
+        return BadRequest();
+    }
+
+var invites = await _context.Invites
+    .Include(invite => invite.Uitgever)
+    .Where(invite => isInRoll)
+    .ToListAsync();
+
+    List<getAllInviteDto> getAllInviteDtos = invites.Select(invite => new getAllInviteDto
+{
+
+    Email = invite.InviteEmail,
+    Naam = invite.InviteNaam,
+    Indetifier = invite.Identifier,
+    IsGebruikt = invite.IsGebruikt,
+    IsVerval = invite.IsVervalt,
+    VerloopDatum = DateOnly.FromDateTime(invite.VerloopDatum),
+    DatumGemaakt = DateOnly.FromDateTime(invite.DatumGemaakt), 
+    Uitgever = invite.Uitgever.UserName,
+    Ontvanger = invite.Ontvanger?.UserName
+
+}).ToList();
+
+
+
+    return Ok(getAllInviteDtos);
+
     }
 }
