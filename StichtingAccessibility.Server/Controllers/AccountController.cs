@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using StichtingAccessibility.Server.Models;
@@ -9,10 +10,7 @@ using StichtingAccessibility.Server.Models.DTOs.Ervaringsdeskundig;
 
 namespace StichtingAccessibility.Server.Controllers;
 
-public class GebruikerMetWachwoord : IdentityUser
-{
-    public string? Password { get; init; }
-}
+
 
 [Route("api/[controller]")]
 [ApiController]
@@ -20,11 +18,14 @@ public class AccountController : ControllerBase
 {
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly StichtingDbContext _context;
 
-    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, StichtingDbContext context)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _context = context;
+
     }
 
     [HttpPost]
@@ -78,5 +79,57 @@ public class AccountController : ControllerBase
     {
         await _signInManager.SignOutAsync();
         return Ok();
+    }
+
+    [HttpPost]
+    [Route("registreer/bedrijfmedewerker/{identifier}")]
+    public async Task<ActionResult<IEnumerable<Customer>>> RegistreerMedewerker([FromRoute]RegistreerIdentifierDto identifier, [FromBody] RegistreerBedrijfsMedewerkerDto bedrijfsMedewerkerDto)
+    {
+    Guid identifierGuid;
+if (!Guid.TryParse(identifier.Identifier, out identifierGuid))
+{
+    return BadRequest("Invalid identifier format");
+}
+
+bool inviteExists = await _context.Invites.AnyAsync(i => i.Identifier == identifierGuid);
+    if (!inviteExists)
+    {
+        return BadRequest("Identifier does not exist");
+    }
+
+    var bedrijfsMedewerker = new BedrijfsMedewerker
+    {
+        UserName = bedrijfsMedewerkerDto.UserName,
+        Email = bedrijfsMedewerkerDto.Email
+    };
+
+    var resultaat = await _userManager.CreateAsync(bedrijfsMedewerker, bedrijfsMedewerkerDto.Password);
+    if (!resultaat.Succeeded) return new BadRequestObjectResult(resultaat);
+
+    await _userManager.AddToRoleAsync(bedrijfsMedewerker, "BedrijfMedewerker");
+
+    BedrijfsPortaal bedrijfsPortaal = new BedrijfsPortaal
+    {
+        BedrijfNaam = bedrijfsMedewerkerDto.BedrijfNaam,
+        BedrijfAdres = null,
+        BedrijfInformatie = null
+    };
+
+    bedrijfsPortaal.BedrijfsMedewerkers.Add(bedrijfsMedewerker);
+
+    await _context.BedrijfsPortaalen.AddAsync(bedrijfsPortaal);
+
+    // Find the Invite with the given identifier and update the Ontvanger and IsGebruikt properties
+    var invite = await _context.Invites.FirstOrDefaultAsync(i => i.Identifier == identifierGuid);
+if (invite != null)
+{
+    invite.Ontvanger = bedrijfsMedewerker;
+    invite.IsGebruikt = true;
+    invite.IsVervalt = true;
+}
+
+    await _context.SaveChangesAsync();
+
+    return !resultaat.Succeeded ? new BadRequestObjectResult(resultaat) : StatusCode(201);
     }
 }
