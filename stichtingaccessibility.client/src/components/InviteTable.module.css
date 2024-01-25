@@ -1,0 +1,13 @@
+@media (max-width: 576px) {
+    .modal-mobile {
+        position: fixed;
+        top: 60%;
+        left: 30%; /* Adjust this value to move the modal left or right */
+        transform: translate(-50%, -50%);
+        max-width: 100%;
+        width: auto;
+    }
+    body {
+        overflow-x: hidden;
+    }
+}

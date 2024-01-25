@@ -1,5 +1,6 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {QueryClientProvider, QueryClient} from "react-query";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css";
 import Login, {action as LoginAction} from "./pages/login/login.jsx";
 import Dashboard from "./pages/EVD/EvdDashboard.jsx";

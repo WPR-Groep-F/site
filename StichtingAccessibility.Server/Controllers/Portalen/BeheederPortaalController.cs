@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StichtingAccessibility.Server.Models;
 
 namespace StichtingAccessibility.Server.Controllers;
@@ -58,8 +59,8 @@ public class BeheerderPortaalController : ControllerBase
     }
 
 
-    [HttpGet("InviteBedrijf")]
-    public async Task<IActionResult> InviteBedrijf()
+    [HttpPost("InviteBedrijf")]
+    public async Task<IActionResult> InviteBedrijf([FromBody] InviteDto inviteDto)
     {
         Guid identifier = Guid.NewGuid();
         
@@ -75,7 +76,9 @@ public class BeheerderPortaalController : ControllerBase
             DatumGemaakt = DateTime.Now, 
             Identifier = identifier, 
             Uitgever = beheerder, 
-            VerloopDatum = DateTime.Now.AddDays(7)
+            VerloopDatum = DateTime.Now.AddDays(7),
+            InviteEmail = inviteDto.email,
+            InviteNaam = inviteDto.naam
         };
         
         beheerder.Invites.Add(invite);
@@ -83,17 +86,46 @@ public class BeheerderPortaalController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        return Ok(identifier.ToString());
-    }
-    
-    [HttpPost("InviteBedrijf")]
-    public async Task<IActionResult> InviteBedrijf(string email)
-    {
-        Guid identifier = Guid.NewGuid();
-        Invite invite = new Invite();
-        
-        
-
         return Ok();
+    }
+    [HttpGet("InviteBedrijf")]
+    public async Task<IActionResult> GetAllInviteBedrijf()
+    {
+
+    var beheerder = await _signInManager.UserManager.FindByNameAsync(User.Identity.Name) as Beheerder;
+
+    var isInRoll = await _signInManager.UserManager.IsInRoleAsync(beheerder, "Beheerder");
+    if (!isInRoll)
+    {
+        return BadRequest();
+    }
+    else if(beheerder == null){
+        return BadRequest();
+    }
+
+var invites = await _context.Invites
+    .Include(invite => invite.Uitgever)
+    .Where(invite => isInRoll)
+    .ToListAsync();
+
+    List<getAllInviteDto> getAllInviteDtos = invites.Select(invite => new getAllInviteDto
+{
+
+    Email = invite.InviteEmail,
+    Naam = invite.InviteNaam,
+    Indetifier = invite.Identifier,
+    IsGebruikt = invite.IsGebruikt,
+    IsVerval = invite.IsVervalt,
+    VerloopDatum = DateOnly.FromDateTime(invite.VerloopDatum),
+    DatumGemaakt = DateOnly.FromDateTime(invite.DatumGemaakt), 
+    Uitgever = invite.Uitgever.UserName,
+    Ontvanger = invite.Ontvanger?.UserName
+
+}).ToList();
+
+
+
+    return Ok(getAllInviteDtos);
+
     }
 }

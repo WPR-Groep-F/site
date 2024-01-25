@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StichtingAccessibility.Server.Models;
 
@@ -11,9 +12,11 @@ using StichtingAccessibility.Server.Models;
 namespace StichtingAccessibility.Server.Migrations
 {
     [DbContext(typeof(StichtingDbContext))]
-    partial class StichtingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240123034613_InviteModel")]
+    partial class InviteModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -338,10 +341,6 @@ namespace StichtingAccessibility.Server.Migrations
 
                     b.Property<Guid>("Identifier")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("InviteEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("InviteNaam")
                         .IsRequired()
