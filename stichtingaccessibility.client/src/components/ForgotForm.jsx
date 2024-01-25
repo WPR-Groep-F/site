@@ -7,13 +7,6 @@ function ForgotForm() {
     return (
         <>
             <Form method="post">
-                {data && data.errors && (
-                    <ul>
-                        {Object.values(data.errors).map((err) => (
-                            <li key={err}>{err}</li>
-                        ))}
-                    </ul>
-                )}
                 {data && data.message && <p>{data.message}</p>}
                 <div className={classes["logo"]}>
                     <img src={logo} alt="logo"/>
@@ -23,12 +16,19 @@ function ForgotForm() {
                     <input type="email" placeholder="E-mail" name="email"/>
                     <i className='bx bxs-envelope'></i>
                 </div>
-                <div className={classes["forgot-password"]}>
-                    <Link to={"/"}><i className='bx bx-left-arrow-alt'></i> Back to Login</Link>
-                </div>
+                {data && data.errors && (
+                    <ul>
+                        {Object.values(data.errors).map((err) => (
+                            <li key={err}>{err}</li>
+                        ))}
+                    </ul>
+                )}
                 <button type="Submit" className={classes["btn--register"]}>
                     Forgot password
                 </button>
+                <div className={classes["forgot-password"]}>
+                    <Link to={"/"}><i className='bx bx-left-arrow-alt'></i> Back to Login</Link>
+                </div>
 
             </Form>
         </>
