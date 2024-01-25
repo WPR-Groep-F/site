@@ -17,6 +17,7 @@ public class Invite
     public DateTime DatumGemaakt { get; set; }
 
     public string InviteNaam { get; set; }
+    public string InviteEmail { get; set; }
     public bool IsGebruikt { get; set; }
     public bool IsVervalt { get; set; }
     
