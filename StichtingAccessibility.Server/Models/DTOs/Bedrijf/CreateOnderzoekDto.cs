@@ -6,4 +6,3 @@ public class CreateOnderzoekDto
     public string Beschrijving { get; set; }
     public bool IsGekeurd { get; set; }
 }
-    

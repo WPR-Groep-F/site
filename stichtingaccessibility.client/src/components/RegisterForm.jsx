@@ -9,7 +9,7 @@ function RegisterForm() {
     return (
         <>
             <Form method="post">
-               
+
                 {data && data.message && <p>{data.message}</p>}
                 <div className={classes["logo"]}>
                     <img src={logo} alt="logo"/>

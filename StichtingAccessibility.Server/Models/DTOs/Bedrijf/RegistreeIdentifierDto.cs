@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+
 public class RegistreerIdentifierDto
 {
-    public string Identifier { get; set; }
+    [BindRequired] public string Identifier { get; set; }
 }

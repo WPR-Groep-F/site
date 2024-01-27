@@ -1,4 +1,5 @@
-public class getAllInviteDto{
+public class getAllInviteDto
+{
     public string Email { get; set; }
     public string Naam { get; set; }
     public Guid Indetifier { get; set; }

@@ -1,8 +1,8 @@
 import classes from "./NavItem.module.css";
 import {NavLink} from "react-router-dom";
 
-function NavItem(props){
-    return(
+function NavItem(props) {
+    return (
         <li>
             <NavLink
                 to={props.Naar}

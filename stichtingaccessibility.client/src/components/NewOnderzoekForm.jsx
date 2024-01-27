@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {Form, Button, Container, Row, Col, Card} from 'react-bootstrap';
-import { useMutation, useQueryClient } from 'react-query';
+import {useMutation, useQueryClient} from 'react-query';
 import axiosInstance from "../Services/axiosInstance.js";
 import {apiPath} from "../util/api.jsx";
 
@@ -45,7 +45,7 @@ function NewOnderzoekForm() {
                                     <Form.Label>Titel onderzoek</Form.Label>
                                     <Form.Control
                                         type={"text"}
-                                        placeholder={"Titel onderzoek" }
+                                        placeholder={"Titel onderzoek"}
                                         value={Titel}
                                         onChange={e => setTitel(e.target.value)}
                                     />
@@ -56,7 +56,7 @@ function NewOnderzoekForm() {
                                     <Form.Label>Beschrijving</Form.Label>
                                     <Form.Control
                                         type={"text"}
-                                        placeholder={"Beschrijving" }
+                                        placeholder={"Beschrijving"}
                                         value={Beschrijving}
                                         onChange={e => setBeschrijving(e.target.value)}
                                     />
@@ -72,7 +72,7 @@ function NewOnderzoekForm() {
                 </Card.Body>
             </Card>
         </Container>
-);
+    );
 }
 
 export default NewOnderzoekForm;

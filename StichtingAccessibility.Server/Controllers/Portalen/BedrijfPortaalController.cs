@@ -11,7 +11,7 @@ public class BedrijfPortaalController : ControllerBase
 {
     private readonly StichtingDbContext _context;
     private readonly SignInManager<IdentityUser> _signInManager;
-    
+
     public BedrijfPortaalController(StichtingDbContext context, SignInManager<IdentityUser> signInManager)
     {
         _context = context;
@@ -27,18 +27,19 @@ public class BedrijfPortaalController : ControllerBase
     }
 
     [HttpPost("CreateOnderzoek")]
-    public async Task<IActionResult> CreateOnderzoek([FromBody] CreateOnderzoekDto onderzoekDto) 
+    public async Task<IActionResult> CreateOnderzoek([FromBody] CreateOnderzoekDto onderzoekDto)
     {
         var bedrijf = await _context.BedrijfsPortaalen.FindAsync(1);
 
-        Onderzoek onderzoek = new Onderzoek() {
+        var onderzoek = new Onderzoek()
+        {
             Titel = onderzoekDto.Titel,
             Beschrijving = onderzoekDto.Beschrijving,
             DatumGeplaatst = DateOnly.FromDateTime(DateTime.Today),
             IsGekeurd = onderzoekDto.IsGekeurd,
             Bedrijf = bedrijf
         };
-        
+
         await _context.Onderzoeken.AddAsync(onderzoek);
 
         await _context.SaveChangesAsync();

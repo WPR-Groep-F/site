@@ -10,8 +10,6 @@ using StichtingAccessibility.Server.Models.DTOs.Ervaringsdeskundig;
 
 namespace StichtingAccessibility.Server.Controllers;
 
-
-
 [Route("api/[controller]")]
 [ApiController]
 public class AccountController : ControllerBase
@@ -20,12 +18,12 @@ public class AccountController : ControllerBase
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly StichtingDbContext _context;
 
-    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, StichtingDbContext context)
+    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,
+        StichtingDbContext context)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _context = context;
-
     }
 
     [HttpPost]
@@ -82,54 +80,53 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost]
-    [Route("registreer/bedrijfmedewerker/{identifier}")]
-    public async Task<ActionResult<IEnumerable<Customer>>> RegistreerMedewerker([FromRoute]RegistreerIdentifierDto identifier, [FromBody] RegistreerBedrijfsMedewerkerDto bedrijfsMedewerkerDto)
+    [Route("registreer/bedrijfmedewerker/")]
+    public async Task<ActionResult<IEnumerable<Customer>>> RegistreerMedewerker(
+        string identifier,
+        [FromBody] RegistreerBedrijfsMedewerkerDto bedrijfsMedewerkerDto)
     {
-    Guid identifierGuid;
-if (!Guid.TryParse(identifier.Identifier, out identifierGuid))
-{
-    return BadRequest("Invalid identifier format");
-}
+        Guid identifierGuid;
+        if (!Guid.TryParse(identifier, out identifierGuid)) return BadRequest("Invalid identifier format");
+        var invite = await _context.Invites.FirstOrDefaultAsync(i => i.Identifier == identifierGuid);
+        if (invite == null) return BadRequest("Invite does not exist");
 
-bool inviteExists = await _context.Invites.AnyAsync(i => i.Identifier == identifierGuid);
-    if (!inviteExists)
-    {
-        return BadRequest("Identifier does not exist");
-    }
+        if (invite.IsGebruikt || invite.IsVervalt) return BadRequest("Invite expired or is already used");
 
-    var bedrijfsMedewerker = new BedrijfsMedewerker
-    {
-        UserName = bedrijfsMedewerkerDto.UserName,
-        Email = bedrijfsMedewerkerDto.Email
-    };
+        var bedrijfsMedewerker = new BedrijfsMedewerker
+        {
+            UserName = bedrijfsMedewerkerDto.UserName,
+            Email = bedrijfsMedewerkerDto.Email
+        };
 
-    var resultaat = await _userManager.CreateAsync(bedrijfsMedewerker, bedrijfsMedewerkerDto.Password);
-    if (!resultaat.Succeeded) return new BadRequestObjectResult(resultaat);
+        var resultaat = await _userManager.CreateAsync(bedrijfsMedewerker, bedrijfsMedewerkerDto.Password);
+        if (!resultaat.Succeeded) return new BadRequestObjectResult(resultaat);
 
-    await _userManager.AddToRoleAsync(bedrijfsMedewerker, "BedrijfMedewerker");
+        await _userManager.AddToRoleAsync(bedrijfsMedewerker, "BedrijfMedewerker");
 
-    BedrijfsPortaal bedrijfsPortaal = new BedrijfsPortaal
-    {
-        BedrijfNaam = bedrijfsMedewerkerDto.BedrijfNaam,
-        BedrijfAdres = null,
-        BedrijfInformatie = null
-    };
+        var bedrijfsPortaal = new BedrijfsPortaal
+        {
+            BedrijfNaam = invite.InviteNaam,
+            BedrijfAdres = "",
+            BedrijfInformatie = ""
+        };
 
-    bedrijfsPortaal.BedrijfsMedewerkers.Add(bedrijfsMedewerker);
 
-    await _context.BedrijfsPortaalen.AddAsync(bedrijfsPortaal);
+        await _context.BedrijfsPortaalen.AddAsync(bedrijfsPortaal);
 
-    // Find the Invite with the given identifier and update the Ontvanger and IsGebruikt properties
-    var invite = await _context.Invites.FirstOrDefaultAsync(i => i.Identifier == identifierGuid);
-if (invite != null)
-{
-    invite.Ontvanger = bedrijfsMedewerker;
-    invite.IsGebruikt = true;
-    invite.IsVervalt = true;
-}
+        // Find the Invite with the given identifier and update the Ontvanger and IsGebruikt properties
 
-    await _context.SaveChangesAsync();
+        if (invite != null)
+        {
+            invite.Ontvanger = bedrijfsMedewerker;
+            invite.IsGebruikt = true;
+            invite.IsVervalt = true;
+        }
 
-    return !resultaat.Succeeded ? new BadRequestObjectResult(resultaat) : StatusCode(201);
+        bedrijfsPortaal.BedrijfsMedewerkers.Add(bedrijfsMedewerker);
+
+
+        await _context.SaveChangesAsync();
+
+        return !resultaat.Succeeded ? new BadRequestObjectResult(resultaat) : StatusCode(201);
     }
 }
