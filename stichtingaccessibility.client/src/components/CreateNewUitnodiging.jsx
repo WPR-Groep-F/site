@@ -6,6 +6,38 @@ function CreateNewUitnodiging(props) {
   const [Datum, setDatum] = useState("");
   const [Tijd, setTijd] = useState("");
   const [Adres, setAdres] = useState("");
+  const [Titel, setTitel] = useState("");
+  const [Beschrijving, setBeschrijving] = useState("");
+  const [IsGekeurd, setIsGekeurd] = useState(false);
+
+  const handleSubmit = (event) => {
+    // mutation.mutate({
+    //     "Titel": Titel,
+    //     "Beschrijving": Beschrijving
+
+    // });
+
+    event.preventDefault();
+    
+
+    const OnderzoekData = {
+      titel: Titel,
+      beschrijving: Beschrijving,
+      adres: Adres,
+      tijd: Tijd,
+      datum: Datum,
+      rout: Routebeschrijving
+    };
+
+    console.log(OnderzoekData);
+
+    // setBeschrijving = "";
+    // setTitel = "";
+
+    event.target.reset();
+
+    console.log(`dit is de titel: ${Titel}`);
+  };
 
 
   
@@ -15,6 +47,28 @@ function CreateNewUitnodiging(props) {
         <Card.Body>
           <Form onSubmit={handleSubmit}>
             <Row>
+            <Col>
+                <Form.Group>
+                  <Form.Label>Titel onderzoek</Form.Label>
+                  <Form.Control
+                    type={"text"}
+                    placeholder={"Titel onderzoek"}
+                    value={Titel}
+                    onChange={(e) => setTitel(e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group>
+                  <Form.Label>Beschrijving</Form.Label>
+                  <Form.Control
+                    type={"text"}
+                    placeholder={"Beschrijving"}
+                    value={Beschrijving}
+                    onChange={(e) => setBeschrijving(e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
               <Col>
                 <Form.Group>
                   <Form.Label>Adres</Form.Label>
