@@ -1,11 +1,10 @@
-
 import classes from "./login.module.css";
 
 import AuthForm from "../../components/AuthForm";
 import axios from "axios";
 import {apiPath} from "../../util/api.jsx";
-import { jwtDecode } from "jwt-decode";
-import { redirect } from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
+import {redirect} from "react-router-dom";
 
 
 function Login() {
@@ -54,11 +53,10 @@ export async function action({request}) {
         const token = response.data;
         const tokenString = JSON.stringify(token);
         localStorage.setItem('token', tokenString);
-        
 
 
         if (tokenString) {
-            
+
             const decodedToken = jwtDecode(tokenString);
 
 
@@ -79,8 +77,8 @@ export async function action({request}) {
                     break;
             }
         }
-        
-        
+
+
     } catch (error) {
         console.log(error)
         if (error.response) {

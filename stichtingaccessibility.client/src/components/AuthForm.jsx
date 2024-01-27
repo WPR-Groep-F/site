@@ -8,13 +8,6 @@ function AuthForm() {
     return (
         <>
             <Form method="post">
-                {data && data.errors && (
-                    <ul className={rmstyle.ulError}>
-                        {Object.entries(data.errors).map(([field, errors]) => (
-                            <li key={field}>{field}: {errors[0]}</li>
-                        ))}
-                    </ul>
-                )}
                 {data && data.message && <p>{data.message}</p>}
                 <div className={classes["logo"]}>
                     <img src={logo} alt="logo"/>
@@ -29,6 +22,13 @@ function AuthForm() {
                     <input type="Password" name="password" placeholder="Password"/>
                     <i className="bx bxs-lock-alt"></i>
                 </div>
+                {data && data.errors && (
+                    <ul className={rmstyle.ulError}>
+                        {Object.entries(data.errors).map(([field, errors]) => (
+                            <li key={field}>{field}: {errors[0]}</li>
+                        ))}
+                    </ul>
+                )}
                 <button type="Submit" className={classes["btn--login"]}>
                     Login
                 </button>

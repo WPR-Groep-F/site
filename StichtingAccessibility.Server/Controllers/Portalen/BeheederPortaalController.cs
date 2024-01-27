@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using StichtingAccessibility.Server.Models;
 
 namespace StichtingAccessibility.Server.Controllers;
+
 [Authorize(Roles = "Beheerder")]
 [Route("api/[controller]")]
 [ApiController]
@@ -12,12 +13,13 @@ public class BeheerderPortaalController : ControllerBase
 {
     private readonly StichtingDbContext _context;
     private readonly SignInManager<IdentityUser> _signInManager;
-    
+
     public BeheerderPortaalController(StichtingDbContext context, SignInManager<IdentityUser> signInManager)
     {
         _context = context;
         _signInManager = signInManager;
     }
+
     [HttpGet("GetBedrijven")]
     public async Task<IActionResult> GetBedrijven()
     {
@@ -62,25 +64,25 @@ public class BeheerderPortaalController : ControllerBase
     [HttpPost("InviteBedrijf")]
     public async Task<IActionResult> InviteBedrijf([FromBody] InviteDto inviteDto)
     {
-        Guid identifier = Guid.NewGuid();
-        
+        var identifier = Guid.NewGuid();
+
         var beheerder = await _signInManager.UserManager.FindByNameAsync(User.Identity.Name) as Beheerder;
 
-        if (beheerder == null)
-        {
-            return BadRequest("User not found or not a Beheerder");
-        }
+        if (beheerder == null) return BadRequest("User not found");
 
-        Invite invite = new Invite()
+        var inviteExists = await _context.Invites.AnyAsync(i => i.InviteNaam == inviteDto.naam);
+        if (inviteExists) return BadRequest("An invite with this name already exists");
+
+        var invite = new Invite()
         {
-            DatumGemaakt = DateTime.Now, 
-            Identifier = identifier, 
-            Uitgever = beheerder, 
+            DatumGemaakt = DateTime.Now,
+            Identifier = identifier,
+            Uitgever = beheerder,
             VerloopDatum = DateTime.Now.AddDays(7),
             InviteEmail = inviteDto.email,
             InviteNaam = inviteDto.naam
         };
-        
+
         beheerder.Invites.Add(invite);
 
 
@@ -88,44 +90,56 @@ public class BeheerderPortaalController : ControllerBase
 
         return Ok();
     }
+
     [HttpGet("InviteBedrijf")]
     public async Task<IActionResult> GetAllInviteBedrijf()
     {
+        var beheerder = await _signInManager.UserManager.FindByNameAsync(User.Identity.Name) as Beheerder;
 
-    var beheerder = await _signInManager.UserManager.FindByNameAsync(User.Identity.Name) as Beheerder;
+        var isInRoll = await _signInManager.UserManager.IsInRoleAsync(beheerder, "Beheerder");
+        if (!isInRoll)
+            return BadRequest();
+        else if (beheerder == null) return BadRequest();
 
-    var isInRoll = await _signInManager.UserManager.IsInRoleAsync(beheerder, "Beheerder");
-    if (!isInRoll)
+        var invites = await _context.Invites
+            .Include(invite => invite.Uitgever)
+            .Include(invite => invite.Ontvanger)
+            .Where(invite => isInRoll)
+            .ToListAsync();
+
+        var getAllInviteDtos = invites.Select(invite => new getAllInviteDto
+        {
+            Email = invite.InviteEmail,
+            Naam = invite.InviteNaam,
+            Indetifier = invite.Identifier,
+            IsGebruikt = invite.IsGebruikt,
+            IsVerval = invite.IsVervalt,
+            VerloopDatum = DateOnly.FromDateTime(invite.VerloopDatum),
+            DatumGemaakt = DateOnly.FromDateTime(invite.DatumGemaakt),
+            Uitgever = invite.Uitgever?.UserName,
+            Ontvanger = invite.Ontvanger?.UserName
+        }).ToList();
+
+
+        return Ok(getAllInviteDtos);
+    }
+
+    [HttpPost("NewBedrijfsPortaal")]
+    public async Task<IActionResult> NewBedrijfsPortaal([FromBody] CreateNewBedrijfportaalDto newBedrijfsPortaal)
     {
-        return BadRequest();
-    }
-    else if(beheerder == null){
-        return BadRequest();
-    }
+        var bedrijfsPortaal = new BedrijfsPortaal
+        {
+            BedrijfNaam = newBedrijfsPortaal.BedrijfNaam,
+            BedrijfAdres = newBedrijfsPortaal.BedrijfAdres,
+            BedrijfInformatie = newBedrijfsPortaal.BedrijfInformatie
+        };
+        // Add the new BedrijfsPortaal to the context
+        _context.BedrijfsPortaalen.Add(bedrijfsPortaal);
 
-var invites = await _context.Invites
-    .Include(invite => invite.Uitgever)
-    .Where(invite => isInRoll)
-    .ToListAsync();
+        // Save the changes to the database
+        await _context.SaveChangesAsync();
 
-    List<getAllInviteDto> getAllInviteDtos = invites.Select(invite => new getAllInviteDto
-{
-
-    Email = invite.InviteEmail,
-    Naam = invite.InviteNaam,
-    Indetifier = invite.Identifier,
-    IsGebruikt = invite.IsGebruikt,
-    IsVerval = invite.IsVervalt,
-    VerloopDatum = DateOnly.FromDateTime(invite.VerloopDatum),
-    DatumGemaakt = DateOnly.FromDateTime(invite.DatumGemaakt), 
-    Uitgever = invite.Uitgever.UserName,
-    Ontvanger = invite.Ontvanger?.UserName
-
-}).ToList();
-
-
-
-    return Ok(getAllInviteDtos);
-
+        // Return a success response
+        return Ok();
     }
 }

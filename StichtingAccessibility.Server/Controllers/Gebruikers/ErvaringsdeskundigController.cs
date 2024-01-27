@@ -52,9 +52,9 @@ public class ErvaringsdeskundigController : ControllerBase
     [HttpGet("Onderzoeken")]
     public IActionResult GetOnderzoeken()
     {
-        // Implementation goes here...
+        List<Onderzoek> onderzoeken = _context.Onderzoeken.ToList<Onderzoek>();
 
-        return Ok();
+        return Ok(onderzoeken);
     }
 
     [HttpPost("JoinOnderzoek")]
