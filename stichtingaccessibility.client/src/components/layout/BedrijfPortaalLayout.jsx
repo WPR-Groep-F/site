@@ -5,6 +5,7 @@ function BedrijfPortaalLayout() {
     const navItems = [
         {iconClass: "bx bxs-home", name: "Home", naar: "", End: "end"},
         {iconClass: "bx bxs-user-plus", name: "Invite", naar: "invite"},
+        {iconClass: "bx bxs-package", name: "Onderzoeken", naar: "onderzoeken"},
 
     ];
     return (

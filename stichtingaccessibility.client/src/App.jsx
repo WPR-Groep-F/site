@@ -15,6 +15,7 @@ import EvdLayout from "./components/layout/EvdLayout.jsx";
 import BedrijfPortaalLayout from "./components/layout/BedrijfPortaalLayout.jsx";
 import BeheerderPortaalLayout from "./components/layout/BeheerderPortaalLayout.jsx";
 import Invite from "./pages/BeheederPortaal/Invite.jsx";
+import CreateNewOnderzoek from "./pages/BedrijfsPortaal/CreateNewOnderzoek.jsx";
 
 
 const queryClient = new QueryClient();
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
         children: [
             {index: true, element: <Dashboard/>},
             {path: "invite", element: <Invite/>},
+            {path: "onderzoeken", element: <CreateNewOnderzoek/>},
         ],
     },
     {
