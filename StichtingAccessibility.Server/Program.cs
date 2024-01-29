@@ -8,16 +8,30 @@ using StichtingAccessibility.Server.Models;
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(MyAllowSpecificOrigins,
-        policy =>
-        {
-            policy.WithOrigins("https://localhost:5173", "https://groepf.azurewebsites.net")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
-});
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(MyAllowSpecificOrigins,
+            policy =>
+            {
+                policy.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+    });
+else
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(MyAllowSpecificOrigins,
+            policy =>
+            {
+                policy.WithOrigins("https://localhost:5173", "https://groepf.azurewebsites.net",
+                        "https://localhost:7024")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+    });
+
 
 // Add services to the container.
 

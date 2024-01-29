@@ -9,13 +9,7 @@ function RegisterForm() {
     return (
         <>
             <Form method="post">
-                {data && data.errors && (
-                    <ul className={rmstyle.ulError}>
-                        {data.errors.map((error, index) => (
-                            <li key={index}>{error.description}</li>
-                        ))}
-                    </ul>
-                )}
+
                 {data && data.message && <p>{data.message}</p>}
                 <div className={classes["logo"]}>
                     <img src={logo} alt="logo"/>
@@ -38,12 +32,19 @@ function RegisterForm() {
                     <input type="password" placeholder="Confirm Password"/>
                     <i className="bx bxs-lock-alt"></i>
                 </div>
-                <div className={classes["forgot-password"]}>
-                    <Link to={"/"}><i className='bx bx-left-arrow-alt'></i> Back to Login</Link>
-                </div>
+                {data && data.errors && (
+                    <ul className={rmstyle.ulError}>
+                        {data.errors.map((error, index) => (
+                            <li key={index}>{error.description}</li>
+                        ))}
+                    </ul>
+                )}
                 <button type="Submit" className={classes["btn--register"]}>
                     Registreer
                 </button>
+                <div className={classes["forgot-password"]}>
+                    <Link to={"/"}><i className='bx bx-left-arrow-alt'></i> Back to Login</Link>
+                </div>
 
             </Form>
         </>

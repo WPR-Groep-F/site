@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Table, Button, Modal } from 'react-bootstrap';
-import { useQuery } from 'react-query';
+import React, {useState} from 'react';
+import {Table, Button, Modal} from 'react-bootstrap';
+import {useQuery} from 'react-query';
 import axiosInstance from "../Services/axiosInstance.js";
 import {apiPath} from "../util/api.jsx";
 import ModalCss from './InviteTable.module.css'
@@ -8,7 +8,11 @@ import ModalCss from './InviteTable.module.css'
 const DataTable = () => {
     const [showModal, setShowModal] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
-    const { data, isLoading, error } = useQuery('tableData', () => axiosInstance.get(`${apiPath}/api/BeheerderPortaal/InviteBedrijf`));
+    const {
+        data,
+        isLoading,
+        error
+    } = useQuery('tableData', () => axiosInstance.get(`${apiPath}/api/BeheerderPortaal/InviteBedrijf`));
 
     const handleOpenModal = (item) => {
         setCurrentItem({
@@ -54,7 +58,9 @@ const DataTable = () => {
                             </Button>
                         </td>
                     </tr>
-                )) : <tr><td colSpan="7">No data available</td></tr>}
+                )) : <tr>
+                    <td colSpan="7">No data available</td>
+                </tr>}
                 </tbody>
             </Table>
 

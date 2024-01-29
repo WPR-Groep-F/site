@@ -23,7 +23,8 @@ function Navbar({navItems}) {
                 </div>
                 <ul className={`${classes.navList} ${menuOpen ? 'menu-open' : 'menu-closed'}`}>
                     {navItems.map((item, index) => (
-                        <NavItem key={index} IconClass={item.iconClass} Name={item.name} Naar={item.naar} End={item.End} />
+                        <NavItem key={index} IconClass={item.iconClass} Name={item.name} Naar={item.naar}
+                                 End={item.End}/>
                     ))}
                     <li>
                         <Form action="/logout" method="post">
