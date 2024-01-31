@@ -14,7 +14,7 @@ describe('Front Page Accessibility', () => {
            cy.wait(1000);
 
         // Fill in registration form
-        cy.get('[name=username]').type('testuser69');
+        cy.get('[name=username]').type('testuser70');
         cy.get('[name=email]').type('test@example.com');
         cy.get('[name=password]').type('!Testpassword123');
         cy.get('[placeholder="Confirm Password"]').type('testpassword');
