@@ -15,9 +15,9 @@ public class RoleSetup
 
         List<string> rollen = new() { "Ervaringsdeskundig", "BedrijfMedewerker", "Beheerder" };
 
-        // await CreateRole(roleManager, rollen);
-        // await CreateUser(userManager, "Rick", "Rick123!", "Beheerder", "Beheerder");
-        // await CreateUser(userManager, "Rickevd", "Rickevd123!", "Ervaringsdeskundig", "Ervaringsdeskundig");
+        await CreateRole(roleManager, rollen);
+        await CreateUser(userManager, "Test", "Test123!", "Beheerder", "Beheerder");
+        await CreateUser(userManager, "Rickevd", "Rickevd123!", "Ervaringsdeskundig", "Ervaringsdeskundig");
     }
 
 
